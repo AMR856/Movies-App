@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/config/theme/theme_manager.dart';
+import 'package:movies_app/core/routes_manager/route_generator.dart';
+import 'package:movies_app/core/routes_manager/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +19,13 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          theme: ThemeManager.light,
+          themeMode: ThemeMode.light,
           title: 'Movies App',
           debugShowCheckedModeBanner: false,
           supportedLocales: const [Locale('en'), Locale('ar')],
+          onGenerateRoute: RouteGenerator.getRoute,
+          initialRoute: Routes.mainRoute,
         );
       },
     );
