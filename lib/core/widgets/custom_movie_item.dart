@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
-import 'package:movies_app/core/routes_manager/routes.dart';
+import 'package:movies_app/core/routes_manager/route_manager.dart';
 
 class CustomMovieItem extends StatelessWidget {
   const CustomMovieItem({
@@ -18,7 +18,7 @@ class CustomMovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.movieDetailsRoute);
+        Navigator.pushNamed(context, RoutesManager.movieDetails);
       },
       child: Stack(
         children: [

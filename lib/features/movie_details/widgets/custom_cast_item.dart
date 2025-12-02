@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
-import 'package:movies_app/feature/movie_details/models/character_model.dart';
+import 'package:movies_app/features/movie_details/models/character_model.dart';
 
 class CustomCastItem extends StatelessWidget {
   const CustomCastItem({
