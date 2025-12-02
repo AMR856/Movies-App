@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/feature/main_layout/browser/widgets/tab_item.dart';
+import 'package:movies_app/features/main_layout/browser/widgets/tab_item.dart';
 
 class CustomTabBar extends StatefulWidget {
   const CustomTabBar({

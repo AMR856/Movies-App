@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const String imagePath = "assets/images";
 const String jsonPath = "assets/json";
 const String iconsPath = "assets/icons";
@@ -25,21 +24,6 @@ abstract class ImageAssets {
   static const String character7 = '$imagePath/character7.png';
   static const String character8 = '$imagePath/character8.png';
   static const String character9 = '$imagePath/character9.png';
-}
-
-class SvgAssets {}
-
-abstract class IconsAssets {
-  static const String icon1 = '$iconsPath/icon1.png';
-  static const String icon2 = '$iconsPath/icon2.png';
-  static const String icon3 = '$iconsPath/icon3.png';
-  static const String icon4 = '$iconsPath/icon4.png';
-  static const String icon5Arrow = '$iconsPath/Arrow 1.png';
-}
-
-class JsonAssets {}
-=======
-abstract class ImageAssets{
   static const String base = "assets/images/";
   static const String routeLogo = "${base}route_logo.png";
   static const String movieLogo = "${base}movie_logo.png";
@@ -59,4 +43,16 @@ abstract class ImageAssets{
 
 
 }
->>>>>>> feature/auth
+
+class SvgAssets {}
+
+abstract class IconsAssets {
+  static const String icon1 = '$iconsPath/icon1.png';
+  static const String icon2 = '$iconsPath/icon2.png';
+  static const String icon3 = '$iconsPath/icon3.png';
+  static const String icon4 = '$iconsPath/icon4.png';
+  static const String icon5Arrow = '$iconsPath/Arrow 1.png';
+}
+
+class JsonAssets {}
+

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/widgets/custom_movie_item.dart';
-import 'package:movies_app/feature/main_layout/browser/widgets/custom_tab_bar.dart';
+import 'package:movies_app/features/main_layout/browser/widgets/custom_tab_bar.dart';
 
 class BrowserTab extends StatelessWidget {
   const BrowserTab({super.key});

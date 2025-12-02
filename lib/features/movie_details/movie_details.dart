@@ -6,9 +6,10 @@ import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/core/widgets/custom_movie_item.dart';
-import 'package:movies_app/feature/movie_details/models/character_model.dart';
-import 'package:movies_app/feature/movie_details/widgets/custom_button_details.dart';
-import 'package:movies_app/feature/movie_details/widgets/custom_cast_item.dart';
+import 'package:movies_app/features/movie_details/models/character_model.dart';
+
+import 'widgets/custom_button_details.dart';
+import 'widgets/custom_cast_item.dart';
 
 class MovieDetails extends StatelessWidget {
   MovieDetails({super.key});
