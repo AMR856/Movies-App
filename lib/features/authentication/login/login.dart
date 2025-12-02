@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/funcation/validators.dart';
-
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
@@ -32,7 +31,7 @@ class _LoginState extends State<Login> {
       const SnackBar(content: Text('Login Successful!')),
     );
     // إذا نجح التحقق، يتم الانتقال إلى الشاشة الرئيسية
-    Navigator.pushReplacementNamed(context, RoutesManager.home);
+    // Navigator.pushReplacementNamed(context, RoutesManager.home);
   }
 
   @override
@@ -142,7 +141,7 @@ class _LoginState extends State<Login> {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, RoutesManager.forgetpassword);
+          Navigator.pushNamed(context, RoutesManager.forgetPassword);
         },
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,

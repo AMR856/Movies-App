@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/config/theme/theme_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
 
 
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-      routes: RoutesManager.Routes(),
+      routes: RoutesManager.routes(),
       initialRoute: RoutesManager.splashScreen,
 
 

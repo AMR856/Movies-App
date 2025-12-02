@@ -52,7 +52,7 @@ class _RegisterState extends State<Register> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registration Successful!')),
     );
-     Navigator.pushReplacementNamed(context, RoutesManager.home);
+     // Navigator.pushReplacementNamed(context, RoutesManager.home);
   }
   @override
   Widget build(BuildContext context) {
