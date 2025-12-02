@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           supportedLocales: const [Locale('en'), Locale('ar')],
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routes.mainRoute,
+          initialRoute: RoutesManager.splashScreen,
+          routes: RoutesManager.routes(),
         );
       },
     );
