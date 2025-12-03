@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
-<<<<<<< HEAD
-import 'package:movies_app/core/routes_manager/routes.dart';
-import 'package:movies_app/feature/main_layout/home/domain/entities/movies_entity.dart';
-=======
 import 'package:movies_app/core/routes_manager/route_manager.dart';
->>>>>>> 9e6d2ce8114061c6dbb3c988c0567d21e88e826f
+import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
 
 class CustomMovieItem extends StatelessWidget {
   const CustomMovieItem({

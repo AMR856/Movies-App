@@ -1,4 +1,5 @@
-import 'package:movies_app/feature/main_layout/home/domain/entities/movies_entity.dart';
+
+import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
 
 class Movies {
   final int? id;

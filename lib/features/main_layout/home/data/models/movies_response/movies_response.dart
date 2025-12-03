@@ -1,4 +1,5 @@
-import 'package:movies_app/feature/main_layout/home/data/models/movies_response/movies.dart';
+
+import 'package:movies_app/features/main_layout/home/data/models/movies_response/movies.dart';
 
 class MoviesResponse {
   final String status;

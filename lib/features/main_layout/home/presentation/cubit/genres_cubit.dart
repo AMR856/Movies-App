@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movies_app/feature/main_layout/home/domain/entities/movies_entity.dart';
-import 'package:movies_app/feature/main_layout/home/domain/use_cases/get_movies_use_case.dart';
+import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
+import 'package:movies_app/features/main_layout/home/domain/use_cases/get_movies_use_case.dart';
 
 @injectable
 class GenresCubit extends Cubit<GenresState> {

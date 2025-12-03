@@ -1,12 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_app/core/errors/app_exception.dart';
-
 import 'package:movies_app/core/errors/failure.dart';
-import 'package:movies_app/feature/main_layout/home/data/data_source/remote/movies_remote_data_source.dart';
-import 'package:movies_app/feature/main_layout/home/domain/entities/movies_entity.dart';
-import 'package:movies_app/feature/main_layout/home/domain/repositories/movies_repositories.dart';
+import 'package:movies_app/features/main_layout/home/data/data_source/remote/movies_remote_data_source.dart';
+import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
+import 'package:movies_app/features/main_layout/home/domain/repositories/movies_repositories.dart';
+
 
 @LazySingleton(as: MoviesRepositories)
 class MoviesRepositoriesImpl implements MoviesRepositories {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/features/main_layout/main_layout.dart';
+import 'package:movies_app/features/main_layout.dart';
 import 'package:movies_app/features/movie_details/movie_details.dart';
 import 'package:movies_app/features/update_profile/update_profile.dart';
 

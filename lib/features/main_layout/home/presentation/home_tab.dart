@@ -6,10 +6,12 @@ import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/widgets/custom_movie_item.dart';
-import 'package:movies_app/feature/main_layout/home/presentation/cubit/genres_cubit.dart';
-import 'package:movies_app/feature/main_layout/home/presentation/cubit/movies_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/main_layout/home/presentation/cubit/genres_cubit.dart';
 import 'dart:math';
+
+import 'package:movies_app/features/main_layout/home/presentation/cubit/movies_cubit.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -23,7 +25,6 @@ class _HomeTabState extends State<HomeTab> {
     'Action',
     'Adventure',
     'Animation',
-    'Biography',
     'Comedy',
     'Crime',
     'Documentary',
