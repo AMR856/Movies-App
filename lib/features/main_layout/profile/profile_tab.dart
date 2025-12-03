@@ -4,9 +4,14 @@ import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
-import 'package:movies_app/core/routes_manager/routes.dart';
+import 'package:movies_app/core/routes_manager/route_manager.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
+<<<<<<< HEAD:lib/feature/main_layout/profile/profile_tab.dart
 import 'package:movies_app/feature/main_layout/profile/widget/custom_toggle.dart';
+=======
+import 'package:movies_app/core/widgets/custom_movie_item.dart';
+import 'package:movies_app/features/main_layout/profile/widget/custom_toggle.dart';
+>>>>>>> 9e6d2ce8114061c6dbb3c988c0567d21e88e826f:lib/features/main_layout/profile/profile_tab.dart
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -103,7 +108,7 @@ class ProfileTab extends StatelessWidget {
                           onPressed: () {
                             Navigator.pushNamed(
                               context,
-                              Routes.updateProfileRoute,
+                              RoutesManager.updateProfile,
                             );
                           },
                         ),

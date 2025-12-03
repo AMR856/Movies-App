@@ -3,10 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
+<<<<<<< HEAD:lib/feature/main_layout/main_layout.dart
 import 'package:movies_app/feature/main_layout/browser/browser_tab.dart';
 import 'package:movies_app/feature/main_layout/home/presentation/home_tab.dart';
 import 'package:movies_app/feature/main_layout/profile/profile_tab.dart';
 import 'package:movies_app/feature/main_layout/search/search_tab.dart';
+=======
+import 'package:movies_app/features/main_layout/browser/browser_tab.dart';
+import 'package:movies_app/features/main_layout/home/home_tab.dart';
+import 'package:movies_app/features/main_layout/profile/profile_tab.dart';
+import 'package:movies_app/features/main_layout/search/search_tab.dart';
+
+>>>>>>> 9e6d2ce8114061c6dbb3c988c0567d21e88e826f:lib/features/main_layout/main_layout.dart
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -32,7 +40,7 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       extendBody: false,
       body: Stack(
-        alignment: AlignmentGeometry.bottomCenter,
+        alignment: Alignment.bottomCenter,
         children: [
           screens[currentScreen],
           Container(
