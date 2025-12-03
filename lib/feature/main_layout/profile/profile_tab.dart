@@ -6,7 +6,6 @@ import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/routes_manager/routes.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
-import 'package:movies_app/core/widgets/custom_movie_item.dart';
 import 'package:movies_app/feature/main_layout/profile/widget/custom_toggle.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -124,27 +123,27 @@ class ProfileTab extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(height: 169.h),
-            // Image.asset(ImageAssets.noMoviesImage, height: 124.h, width: 124.w),
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: REdgeInsets.all(16),
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return CustomMovieItem(
-                  height: 180,
-                  width: 122,
-                );
-              },
-              itemCount: 12,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.70,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 12,
-              ),
-            ),
+            SizedBox(height: 169.h),
+            Image.asset(ImageAssets.noMoviesImage, height: 124.h, width: 124.w),
+            // GridView.builder(
+            //   physics: NeverScrollableScrollPhysics(),
+            //   shrinkWrap: true,
+            //   padding: REdgeInsets.all(16),
+            //   scrollDirection: Axis.vertical,
+            //   itemBuilder: (context, index) {
+            //     return CustomMovieItem(
+            //       height: 180,
+            //       width: 122,
+            //     );
+            //   },
+            //   itemCount: 12,
+            //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 3,
+            //     childAspectRatio: 0.70,
+            //     mainAxisSpacing: 10,
+            //     crossAxisSpacing: 12,
+            //   ),
+            // ),
           ],
         ),
       ),

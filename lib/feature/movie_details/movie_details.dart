@@ -5,7 +5,6 @@ import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
-import 'package:movies_app/core/widgets/custom_movie_item.dart';
 import 'package:movies_app/feature/movie_details/models/character_model.dart';
 import 'package:movies_app/feature/movie_details/widgets/custom_button_details.dart';
 import 'package:movies_app/feature/movie_details/widgets/custom_cast_item.dart';
@@ -177,23 +176,23 @@ class MovieDetails extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  GridView.builder(
-                    padding: REdgeInsets.symmetric(vertical: AppPadding.p12),
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return CustomMovieItem();
-                    },
-                    itemCount: 4,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.70,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 12,
-                        ),
-                  ),
+                  // GridView.builder(
+                  //   padding: REdgeInsets.symmetric(vertical: AppPadding.p12),
+                  //   physics: NeverScrollableScrollPhysics(),
+                  //   shrinkWrap: true,
+                  //   scrollDirection: Axis.vertical,
+                  //   itemBuilder: (context, index) {
+                  //     return CustomMovieItem();
+                  //   },
+                  //   itemCount: 4,
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //         crossAxisCount: 2,
+                  //         childAspectRatio: 0.70,
+                  //         mainAxisSpacing: 10,
+                  //         crossAxisSpacing: 12,
+                  //       ),
+                  // ),
                   Text(
                     'Summary',
                     style: TextStyle(

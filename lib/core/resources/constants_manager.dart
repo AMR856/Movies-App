@@ -1,10 +1,8 @@
 class AppConstants {}
 
 abstract class ApiConstant {
-  static const String baseURL = "";
-  static const String registerEndPoint = "";
-  static const String loginEndPoint = "";
-  static const String categoriesEndPoint = "";
+  static const String baseURL = "https://yts.lt/api/v2/";
+  static const String listMoviesEndPoint = "list_movies.json";
 }
 
 abstract class CacheConstant {

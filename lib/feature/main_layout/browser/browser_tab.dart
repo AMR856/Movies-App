@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
-import 'package:movies_app/core/widgets/custom_movie_item.dart';
 import 'package:movies_app/feature/main_layout/browser/widgets/custom_tab_bar.dart';
 
 class BrowserTab extends StatelessWidget {
@@ -20,23 +19,23 @@ class BrowserTab extends StatelessWidget {
               unSelectedTapBgColor: ColorManager.primary,
               unSelectedTapFgColor: ColorManager.yellow,
             ),
-            Expanded(
-              child: GridView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: REdgeInsets.only(top: 13),
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return CustomMovieItem();
-                },
-                itemCount: 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 12
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: GridView.builder(
+            //     physics: BouncingScrollPhysics(),
+            //     padding: REdgeInsets.only(top: 13),
+            //     scrollDirection: Axis.vertical,
+            //     itemBuilder: (context, index) {
+            //       return CustomMovieItem();
+            //     },
+            //     itemCount: 10,
+            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 2,
+            //       childAspectRatio: 0.75,
+            //       mainAxisSpacing: 10,
+            //       crossAxisSpacing: 12
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

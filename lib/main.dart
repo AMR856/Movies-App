@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/config/theme/theme_manager.dart';
+import 'package:movies_app/core/di/di.dart';
 import 'package:movies_app/core/routes_manager/route_generator.dart';
 import 'package:movies_app/core/routes_manager/routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(const MyApp());
 }
 
