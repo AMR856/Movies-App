@@ -44,7 +44,9 @@ dependencies:
   get_it:  
   flutter_bloc: ^9.1.1
   cached_network_image: ^3.4.1
-
+  sqflite: ^2.2.5+1
+  path_provider: ^2.0.16
+  path: ^1.8.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
