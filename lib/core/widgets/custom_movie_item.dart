@@ -34,13 +34,6 @@ class CustomMovieItem extends StatelessWidget {
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-
-            // Image.network(
-            //   fit: BoxFit.fill,
-            //   moviesEntity.largeCoverImage!,
-            //   height: height?.h,
-            //   width: width?.w,
-            // ),
           ),
           Container(
             height: 28.h,

@@ -26,6 +26,7 @@ class UpdateProfile extends StatelessWidget {
     ImageAssets.character8,
     ImageAssets.character9,
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

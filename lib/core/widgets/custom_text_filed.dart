@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 
@@ -40,7 +41,7 @@ class CustomTextFiled extends StatelessWidget {
         prefixIcon: Icon(
           icon,
           color: ColorManager.white,
-          size: 30,
+          size: 30.sp,
         ),
         labelText: label,
         hintText: hint,
