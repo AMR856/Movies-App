@@ -30,7 +30,6 @@ class MoviesApiRemoteDataSource implements MoviesRemoteDataSource {
         queryParameters: {'genre': genre},
       );
       return MoviesResponse.fromJson(response.data);
-      
     } catch (exception) {
       String? message;
       if (exception is DioException) {

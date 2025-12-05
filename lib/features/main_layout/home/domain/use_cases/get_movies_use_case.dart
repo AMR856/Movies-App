@@ -16,4 +16,5 @@ class GetMoviesUseCase {
   Future<Either<Failure, List<MoviesEntity>>> getMoviesGenres(String? genre) async {
     return await moviesRepositories.getMoviesGenres(genre);
   }
+ 
 }

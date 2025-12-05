@@ -1,4 +1,3 @@
-
 import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
 
 class Movies {
@@ -8,12 +7,12 @@ class Movies {
   final String? title;
   final String? titleEnglish;
   final String? titleLong;
-  final String? slug;
   final int? year;
-  final double? rating;
-  final int? runtime;
   final List<String>? genres;
   final String? summary;
+  final String? slug;
+  final double? rating;
+  final int? runtime;
   final String? descriptionFull;
   final String? synopsis;
   final String? ytTrailerCode;
@@ -94,6 +93,7 @@ class Movies {
   }
 
   MoviesEntity toMoviesEntity() => MoviesEntity(
+    id: id,
     rating: rating,
     largeCoverImage: largeCoverImage,
   );

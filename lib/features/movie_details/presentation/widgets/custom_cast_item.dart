@@ -1,16 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
-import 'package:movies_app/features/movie_details/models/character_model.dart';
+import 'package:movies_app/features/movie_details/domain/entities/cast_entity.dart';
 
 class CustomCastItem extends StatelessWidget {
   const CustomCastItem({
     super.key,
-    required this.chraModel,
+    required this.castEntity,
   });
-  final CharacterModel chraModel;
+  final CastEntity castEntity;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +22,7 @@ class CustomCastItem extends StatelessWidget {
       child: Row(
         spacing: 10,
         children: [
-          Image.asset(chraModel.imagePath),
+          Image.network(castEntity.urlSmallImage),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +30,7 @@ class CustomCastItem extends StatelessWidget {
                 Expanded(
                   child: Text(
                     overflow: TextOverflow.ellipsis,
-                    'Name: ${chraModel.name}',
+                    'Name: ${castEntity.name}',
                     style: TextStyle(
                       fontSize: AppSize.s20.sp,
                       fontWeight: FontWeight.w400,
@@ -42,7 +41,7 @@ class CustomCastItem extends StatelessWidget {
                 Expanded(
                   child: Text(
                     overflow: TextOverflow.ellipsis,
-                    'Character: ${chraModel.character}',
+                    'Character: ${castEntity.characterName}',
                     style: TextStyle(
                       fontSize: AppSize.s20.sp,
                       fontWeight: FontWeight.w400,

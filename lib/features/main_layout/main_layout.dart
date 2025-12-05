@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
@@ -6,8 +7,7 @@ import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/features/main_layout/browser/browser_tab.dart';
 import 'package:movies_app/features/main_layout/home/presentation/home_tab.dart';
 import 'package:movies_app/features/main_layout/profile/profile_tab.dart';
-import 'package:movies_app/features/main_layout/search/search_tab.dart';
-
+import 'package:movies_app/features/main_layout/search/presentation/search_tab.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -30,6 +30,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.sizeOf(context).height;
+    log(height.toString());
     return Scaffold(
       extendBody: false,
       body: Stack(
@@ -43,21 +45,23 @@ class _MainLayoutState extends State<MainLayout> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
-            child: BottomNavigationBar(
-              currentIndex: currentScreen,
-              onTap: (value) => changeSelectedIndex(value),
-              backgroundColor: ColorManager.grey,
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              selectedLabelStyle: TextStyle(fontSize: 0),
-              items: [
-                CustomBottomNavBarItem(IconsAssets.icon1, ""),
-                CustomBottomNavBarItem(IconsAssets.icon2, ""),
-                CustomBottomNavBarItem(IconsAssets.icon3, ""),
-                CustomBottomNavBarItem(IconsAssets.icon4, ""),
-              ],
-            ),
+            child: MediaQuery.of(context).viewInsets.bottom != 0
+                ? null
+                : BottomNavigationBar(
+                    currentIndex: currentScreen,
+                    onTap: (value) => changeSelectedIndex(value),
+                    backgroundColor: ColorManager.grey,
+                    type: BottomNavigationBarType.fixed,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    selectedLabelStyle: TextStyle(fontSize: 0),
+                    items: [
+                      CustomBottomNavBarItem(IconsAssets.icon1, ""),
+                      CustomBottomNavBarItem(IconsAssets.icon2, ""),
+                      CustomBottomNavBarItem(IconsAssets.icon3, ""),
+                      CustomBottomNavBarItem(IconsAssets.icon4, ""),
+                    ],
+                  ),
           ),
         ],
       ),

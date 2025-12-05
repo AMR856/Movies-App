@@ -6,7 +6,6 @@ import 'package:movies_app/features/main_layout/home/data/data_source/remote/mov
 import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
 import 'package:movies_app/features/main_layout/home/domain/repositories/movies_repositories.dart';
 
-
 @LazySingleton(as: MoviesRepositories)
 class MoviesRepositoriesImpl implements MoviesRepositories {
   MoviesRemoteDataSource moviesApiRemoteDataSource;
@@ -29,9 +28,11 @@ class MoviesRepositoriesImpl implements MoviesRepositories {
       return Left(Failure(message: exception.message));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<MoviesEntity>>> getMoviesGenres(String? genre)async {
+  Future<Either<Failure, List<MoviesEntity>>> getMoviesGenres(
+    String? genre,
+  ) async {
     try {
       final response = await moviesApiRemoteDataSource.getMoviesGenres(genre);
       return Right(
