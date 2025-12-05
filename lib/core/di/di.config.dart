@@ -26,34 +26,6 @@ import 'package:movies_app/features/main_layout/home/presentation/cubit/genres_c
     as _i95;
 import 'package:movies_app/features/main_layout/home/presentation/cubit/movies_cubit.dart'
     as _i280;
-<<<<<<< HEAD
-import 'package:movies_app/features/main_layout/search/data/data_source/remote/search_api_remote_data_source.dart'
-    as _i245;
-import 'package:movies_app/features/main_layout/search/data/data_source/remote/search_remote_data_source.dart'
-    as _i541;
-import 'package:movies_app/features/main_layout/search/data/repo_impl/search_repo_impl.dart'
-    as _i629;
-import 'package:movies_app/features/main_layout/search/domain/repos/search_repos.dart'
-    as _i828;
-import 'package:movies_app/features/main_layout/search/domain/use_cases/get_search_movie_use_case.dart'
-    as _i780;
-import 'package:movies_app/features/main_layout/search/presentation/cubit/search_provider.dart'
-    as _i762;
-import 'package:movies_app/features/movie_details/data/data_source/remote/details_api_remote_data_source.dart'
-    as _i761;
-import 'package:movies_app/features/movie_details/data/data_source/remote/details_remote_data_source.dart'
-    as _i211;
-import 'package:movies_app/features/movie_details/data/repo_impl/details_repo_impl.dart'
-    as _i955;
-import 'package:movies_app/features/movie_details/domain/repos/details_repos.dart'
-    as _i943;
-import 'package:movies_app/features/movie_details/domain/use_cases/get_details_movie_use_case.dart'
-    as _i225;
-import 'package:movies_app/features/movie_details/presentation/cubit/details_movie_cubit.dart'
-    as _i492;
-import 'package:movies_app/features/movie_details/presentation/cubit/movie_suggestions_cubit.dart'
-    as _i1050;
-=======
 import 'package:movies_app/features/main_layout/profile/data/local/history_local_data_source.dart'
     as _i209;
 import 'package:movies_app/features/main_layout/profile/data/local/history_local_data_source_db.dart'
@@ -82,7 +54,32 @@ import 'package:movies_app/features/main_layout/profile/presentation/cubit/get_p
     as _i619;
 import 'package:movies_app/features/main_layout/profile/presentation/cubit/history_cubit.dart'
     as _i592;
->>>>>>> feature/profile_tab
+import 'package:movies_app/features/main_layout/search/data/data_source/remote/search_api_remote_data_source.dart'
+    as _i245;
+import 'package:movies_app/features/main_layout/search/data/data_source/remote/search_remote_data_source.dart'
+    as _i541;
+import 'package:movies_app/features/main_layout/search/data/repo_impl/search_repo_impl.dart'
+    as _i629;
+import 'package:movies_app/features/main_layout/search/domain/repos/search_repos.dart'
+    as _i828;
+import 'package:movies_app/features/main_layout/search/domain/use_cases/get_search_movie_use_case.dart'
+    as _i780;
+import 'package:movies_app/features/main_layout/search/presentation/cubit/search_provider.dart'
+    as _i762;
+import 'package:movies_app/features/movie_details/data/data_source/remote/details_api_remote_data_source.dart'
+    as _i761;
+import 'package:movies_app/features/movie_details/data/data_source/remote/details_remote_data_source.dart'
+    as _i211;
+import 'package:movies_app/features/movie_details/data/repo_impl/details_repo_impl.dart'
+    as _i955;
+import 'package:movies_app/features/movie_details/domain/repos/details_repos.dart'
+    as _i943;
+import 'package:movies_app/features/movie_details/domain/use_cases/get_details_movie_use_case.dart'
+    as _i225;
+import 'package:movies_app/features/movie_details/presentation/cubit/details_movie_cubit.dart'
+    as _i492;
+import 'package:movies_app/features/movie_details/presentation/cubit/movie_suggestions_cubit.dart'
+    as _i1050;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -98,39 +95,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i393.MoviesRemoteDataSource>(
       () => _i434.MoviesApiRemoteDataSource(),
     );
-<<<<<<< HEAD
+    gh.lazySingleton<_i851.ProfileRepository>(
+      () => _i24.ProfileRepositoryImpl(
+        remoteDataSource: gh<_i225.ProfileRemoteDataSource>(),
+      ),
+    );
     gh.singleton<_i211.DetailsRemoteDataSource>(
       () => _i761.DetailsApiRemoteDataSource(),
     );
     gh.singleton<_i541.SearchRemoteDataSource>(
       () => _i245.SearchApiRemoteDataSource(),
-=======
-    gh.lazySingleton<_i851.ProfileRepository>(
-      () => _i24.ProfileRepositoryImpl(
-        remoteDataSource: gh<_i225.ProfileRemoteDataSource>(),
-      ),
->>>>>>> feature/profile_tab
     );
     gh.lazySingleton<_i439.MoviesRepositories>(
       () => _i514.MoviesRepositoriesImpl(
         moviesApiRemoteDataSource: gh<_i393.MoviesRemoteDataSource>(),
       ),
     );
-<<<<<<< HEAD
-    gh.lazySingleton<_i943.DetailsRepos>(
-      () => _i955.DetailsRepoImpl(
-        detailsApiRemoteDataSource: gh<_i211.DetailsRemoteDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i828.SearchRepos>(
-      () => _i629.SearchRepoImpl(
-        searchRemoteDataSource: gh<_i541.SearchRemoteDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i225.GetDetailsMovieUseCase>(
-      () =>
-          _i225.GetDetailsMovieUseCase(detailsRepos: gh<_i943.DetailsRepos>()),
-=======
     gh.lazySingleton<_i937.GetFavoritesUseCase>(
       () =>
           _i937.GetFavoritesUseCase(repository: gh<_i851.ProfileRepository>()),
@@ -150,14 +130,35 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1022.HistoryRepository>(
       () => _i858.HistoryRepositoryImpl(gh<_i209.HistoryLocalDataSource>()),
->>>>>>> feature/profile_tab
+    );
+    gh.lazySingleton<_i943.DetailsRepos>(
+      () => _i955.DetailsRepoImpl(
+        detailsApiRemoteDataSource: gh<_i211.DetailsRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i828.SearchRepos>(
+      () => _i629.SearchRepoImpl(
+        searchRemoteDataSource: gh<_i541.SearchRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i225.GetDetailsMovieUseCase>(
+      () =>
+          _i225.GetDetailsMovieUseCase(detailsRepos: gh<_i943.DetailsRepos>()),
     );
     gh.lazySingleton<_i39.GetMoviesUseCase>(
       () => _i39.GetMoviesUseCase(
         moviesRepositories: gh<_i439.MoviesRepositories>(),
       ),
     );
-<<<<<<< HEAD
+    gh.lazySingleton<_i447.GetHistoryUseCase>(
+      () => _i447.GetHistoryUseCase(gh<_i1022.HistoryRepository>()),
+    );
+    gh.lazySingleton<_i447.InsertHistoryUseCase>(
+      () => _i447.InsertHistoryUseCase(gh<_i1022.HistoryRepository>()),
+    );
+    gh.lazySingleton<_i447.DeleteHistoryUseCase>(
+      () => _i447.DeleteHistoryUseCase(gh<_i1022.HistoryRepository>()),
+    );
     gh.factory<_i492.DetailsMovieCubit>(
       () => _i492.DetailsMovieCubit(
         getDetailsMovieUseCase: gh<_i225.GetDetailsMovieUseCase>(),
@@ -170,16 +171,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i780.GetSearchMovieUseCase>(
       () => _i780.GetSearchMovieUseCase(searchRepos: gh<_i828.SearchRepos>()),
-=======
-    gh.lazySingleton<_i447.GetHistoryUseCase>(
-      () => _i447.GetHistoryUseCase(gh<_i1022.HistoryRepository>()),
-    );
-    gh.lazySingleton<_i447.InsertHistoryUseCase>(
-      () => _i447.InsertHistoryUseCase(gh<_i1022.HistoryRepository>()),
-    );
-    gh.lazySingleton<_i447.DeleteHistoryUseCase>(
-      () => _i447.DeleteHistoryUseCase(gh<_i1022.HistoryRepository>()),
->>>>>>> feature/profile_tab
     );
     gh.factory<_i95.GenresCubit>(
       () => _i95.GenresCubit(getMoviesUseCase: gh<_i39.GetMoviesUseCase>()),
@@ -187,13 +178,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i280.MoviesCubit>(
       () => _i280.MoviesCubit(getMoviesUseCase: gh<_i39.GetMoviesUseCase>()),
     );
-<<<<<<< HEAD
-    gh.factory<_i762.SearchProvider>(
-      () => _i762.SearchProvider(
-        getSearchMovieUseCase: gh<_i780.GetSearchMovieUseCase>(),
-      ),
-    );
-=======
     gh.factory<_i592.HistoryCubit>(
       () => _i592.HistoryCubit(
         getHistoryUseCase: gh<_i447.GetHistoryUseCase>(),
@@ -205,7 +189,11 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i619.ProfileCubit(getProfileUseCase: gh<_i799.GetProfileUseCase>()),
     );
->>>>>>> feature/profile_tab
+    gh.factory<_i762.SearchProvider>(
+      () => _i762.SearchProvider(
+        getSearchMovieUseCase: gh<_i780.GetSearchMovieUseCase>(),
+      ),
+    );
     return this;
   }
 }

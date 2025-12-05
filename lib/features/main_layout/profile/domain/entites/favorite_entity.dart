@@ -12,5 +12,5 @@ class FavoriteEntity {
   });
 
   MoviesEntity toMovieEntity() =>
-      MoviesEntity(rating: rating, largeCoverImage: imageUrl);
+      MoviesEntity(rating: rating, largeCoverImage: imageUrl, id: int.parse(id!));
 }

@@ -11,6 +11,9 @@ class HistoryEntity {
     this.imageUrl,
   });
 
-  MoviesEntity toMovieEntity() =>
-      MoviesEntity(rating: rating, largeCoverImage: imageUrl);
+  MoviesEntity toMovieEntity() => MoviesEntity(
+    rating: rating,
+    largeCoverImage: imageUrl,
+    id: id,
+  );
 }

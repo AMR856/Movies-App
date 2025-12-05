@@ -36,16 +36,14 @@ class CustomElevatedButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Text(
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              text,
-              style: TextStyle(
-                color: fgColor,
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-              ),
+          Text(
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            text,
+            style: TextStyle(
+              color: fgColor,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
             ),
           ),
 
