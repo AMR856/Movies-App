@@ -8,6 +8,7 @@ abstract class ApiConstant {
   static const String movieSuggestionsEndPoint = "movie_suggestions.json";
   static const String profileEndpoint = 'profile';
   static const String favoritesAllEndpoint = '/favorites/all';
+  static const String updateProfileEndpoint = 'profile';
 }
 
 abstract class CacheConstant {

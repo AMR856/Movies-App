@@ -150,6 +150,11 @@ class _ProfileTabState extends State<ProfileTab> {
                                 Navigator.pushNamed(
                                   context,
                                   RoutesManager.updateProfile,
+                                  arguments: {
+                                    'name': profile.name,
+                                    'phone': profile.phone,
+                                    'avatarId': profile.avatarId,
+                                  },
                                 );
                               },
                             ),

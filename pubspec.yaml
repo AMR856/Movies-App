@@ -49,6 +49,8 @@ dependencies:
   path: ^1.8.3
   url_launcher: ^6.3.2
   provider: ^6.1.5+1
+  http: ^1.6.0
+  fluttertoast: ^9.0.0
 
 dev_dependencies:
   flutter_test:

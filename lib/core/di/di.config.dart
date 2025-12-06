@@ -80,6 +80,18 @@ import 'package:movies_app/features/movie_details/presentation/cubit/details_mov
     as _i492;
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_suggestions_cubit.dart'
     as _i1050;
+import 'package:movies_app/features/update_profile/data/data_source/remote/update_profile_remote_data_source.dart'
+    as _i630;
+import 'package:movies_app/features/update_profile/data/data_source/remote/update_profile_remote_date_source_impl.dart'
+    as _i328;
+import 'package:movies_app/features/update_profile/data/repositories_impl/update_profile_repository_impl.dart'
+    as _i52;
+import 'package:movies_app/features/update_profile/domain/repositories/update_profile_repository.dart'
+    as _i842;
+import 'package:movies_app/features/update_profile/domain/use_cases/update_profile_use_case.dart'
+    as _i116;
+import 'package:movies_app/features/update_profile/presentation/cubit/update_profile_cubit.dart'
+    as _i456;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -89,6 +101,14 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i83.DatabaseHelper>(() => _i83.DatabaseHelper());
+    gh.singleton<_i630.UpdateProfileRemoteDataSource>(
+      () => _i328.UpdateProfileRemoteDataSourceImpl(),
+    );
+    gh.lazySingleton<_i842.UpdateProfileRepository>(
+      () => _i52.UpdateProfileRepositoryImpl(
+        remoteDataSource: gh<_i630.UpdateProfileRemoteDataSource>(),
+      ),
+    );
     gh.singleton<_i225.ProfileRemoteDataSource>(
       () => _i915.ProfileApiRemoteDataSource(),
     );
@@ -118,6 +138,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i209.HistoryLocalDataSource>(
       () => _i318.HistoryLocalDataSourceImpl(gh<_i83.DatabaseHelper>()),
     );
+    gh.lazySingleton<_i116.UpdateProfileUseCase>(
+      () => _i116.UpdateProfileUseCase(gh<_i842.UpdateProfileRepository>()),
+    );
     gh.factory<_i657.FavoritesCubit>(
       () => _i657.FavoritesCubit(
         getFavoritesUseCase: gh<_i937.GetFavoritesUseCase>(),
@@ -140,6 +163,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i629.SearchRepoImpl(
         searchRemoteDataSource: gh<_i541.SearchRemoteDataSource>(),
       ),
+    );
+    gh.factory<_i456.UpdateProfileCubit>(
+      () => _i456.UpdateProfileCubit(gh<_i116.UpdateProfileUseCase>()),
     );
     gh.lazySingleton<_i225.GetDetailsMovieUseCase>(
       () =>

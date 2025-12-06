@@ -6,7 +6,7 @@ class ProfileData {
   final String password;
   final String name;
   final String phone;
-  final int avaterId;
+  final int avatarId;
   final String createdAt;
   final String updatedAt;
   final int v;
@@ -17,7 +17,7 @@ class ProfileData {
     required this.password,
     required this.name,
     required this.phone,
-    required this.avaterId,
+    required this.avatarId,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -30,7 +30,7 @@ class ProfileData {
       password: json['password'] ?? '',
       name: json['name'] ?? '',
       phone: json['phone'] ?? '',
-      avaterId: (json['avaterId'] ?? 0).toInt(),
+      avatarId: (json['avaterId'] ?? 0).toInt(),
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
       v: json['__v'] ?? 0,
@@ -38,5 +38,5 @@ class ProfileData {
   }
 
   ProfileEntity toProfileEntity() =>
-      ProfileEntity(avatarId: avaterId, name: name);
+      ProfileEntity(avatarId: avatarId, name: name, phone: phone);
 }
