@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/config/theme/theme_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
+import 'package:movies_app/utils/auth_controller.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-
-void main() {
-
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthController()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,12 +22,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       debugShowCheckedModeBanner: false,
       routes: RoutesManager.Routes(),
+
+      /// 🔥 أهم تعديل
       initialRoute: RoutesManager.splashScreen,
-
-
     );
   }
 }

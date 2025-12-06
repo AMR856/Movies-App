@@ -8,6 +8,7 @@ import 'package:movies_app/features/login/login.dart';
 import 'package:movies_app/features/onboarding/onboarding.dart';
 import 'package:movies_app/features/register/register.dart';
 import 'package:movies_app/features/splash/splash_screen.dart';
+// 💡 يجب عليك التأكد من أن هذا المسار صحيح
 
 
 abstract class RoutesManager {
@@ -21,17 +22,17 @@ abstract class RoutesManager {
 
 
 
-
   //---------------------------------------------------------------------------
   static Map<String, WidgetBuilder> Routes() {
     return {
-      splashScreen: (context) =>  SplashScreen(),
-      login: (context) =>  Login(),
-      register: (context) =>  Register(),
-      onboarding: (context) =>  OnboardingView(),
-      home: (context) =>  HomeTab(),
-      forgetpassword: (context) =>  ForgetPassword(),
+      splashScreen: (context) =>  const SplashScreen(), // 💡 يُفضل إضافة const
+      login: (context) =>  const Login(),
+      register: (context) =>  const Register(),
+      onboarding: (context) =>  const OnboardingView(),
+      home: (context) =>  const HomeTab(),
+      forgetpassword: (context) =>  const ForgetPassword()
+
     };
 
-    }
   }
+}

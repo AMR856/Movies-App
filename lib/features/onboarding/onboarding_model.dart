@@ -1,4 +1,3 @@
-// lib/presentation/onboarding/onboarding_model.dart
 import 'package:movies_app/core/resources/assets_manager.dart';
 
 class OnboardingModel {

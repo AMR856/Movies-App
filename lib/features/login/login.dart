@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/widget/LanguageSwitcher.dart';
+import 'package:provider/provider.dart';
 import 'package:movies_app/core/funcation/validators.dart';
-
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
+import '../../utils/auth_controller.dart';
 
-// 💡 تم تغيير اسم الفئة إلى Login (حسب طلب المستخدم)
 class Login extends StatefulWidget {
   const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
 }
+
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -25,54 +27,40 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  // دالة منطق تسجيل الدخول
-  void _performLogin() {
-    // 💡 تنفيذ منطق الدخول الفعلي هنا
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Login Successful!')),
-    );
-    // إذا نجح التحقق، يتم الانتقال إلى الشاشة الرئيسية
-    Navigator.pushReplacementNamed(context, RoutesManager.home);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
+
     return Scaffold(
       backgroundColor: ColorsManager.black,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          // الـ Form Widget موجود بالفعل وهذا صحيح
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                const SizedBox(height: 70),
+                 SizedBox(height: 50),
                 Image.asset(
                   ImageAssets.movieLogo,
-                  height: 120,
-                  width: 120,
+                  height: 150,
+                  width: 150,
                 ),
-                const SizedBox(height: 70),
+                 SizedBox(height: 60),
                 _buildEmailTextField(),
-                const SizedBox(height: 20),
-
+                 SizedBox(height: 15),
                 _buildPasswordTextField(),
-
                 _buildForgetPasswordLink(),
-                const SizedBox(height: 30),
-                _buildLoginButton(context),
-
-                const SizedBox(height: 15),
-
+                 SizedBox(height: 20),
+                _buildLoginButton(authController),
+                 SizedBox(height: 15),
                 _buildCreateAccountAndOrSeparator(),
 
-                const SizedBox(height: 25),
-
-                _buildGoogleLoginButton(),
-                const SizedBox(height: 40),
-                _buildLanguageSwitch(),
-                const SizedBox(height: 20),
+                 SizedBox(height: 15),
+                _buildGoogleLoginButton(authController),
+                 SizedBox(height: 30),
+                 LanguageSwitcher(),
+                 SizedBox(height: 20),
               ],
             ),
           ),
@@ -80,21 +68,19 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
   Widget _buildEmailTextField() {
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
-      style:  const TextStyle(color: ColorsManager.white),
-      // 💡 ربط الدالة validateEmail هنا
-      validator: Validators.validateEmail,
+      style:  TextStyle(color: ColorsManager.white),
+      validator: (value) => Validators.validateEmail(value),
       decoration: InputDecoration(
-        prefixIcon:  const Icon(Icons.email, color: ColorsManager.yellow),
+        prefixIcon:  Icon(Icons.email, color: ColorsManager.white),
         hintText: 'Email',
-        hintStyle: const TextStyle(color: ColorsManager.white),
+        hintStyle:  TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor:  const Color(0xFF1E1E1E),
-        contentPadding:  const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        fillColor:  ColorsManager.grey,
+        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
@@ -102,20 +88,18 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
   Widget _buildPasswordTextField() {
     return TextFormField(
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
-      style: const TextStyle(color: ColorsManager.white),
-      // 💡 ربط الدالة validatePassword هنا
-      validator: Validators.validatePassword,
+      style:  TextStyle(color: ColorsManager.white),
+      validator: (value) => Validators.validatePassword(value),
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.lock, color: ColorsManager.yellow),
+        prefixIcon:  Icon(Icons.lock, color: ColorsManager.white),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Colors.white70,
+            color: ColorsManager.white,
             size: 20,
           ),
           onPressed: () {
@@ -127,7 +111,7 @@ class _LoginState extends State<Login> {
         hintText: 'Password',
         hintStyle: const TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor: const Color(0xFF1E1E1E),
+        fillColor: ColorsManager.grey,
         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -136,7 +120,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
   Widget _buildForgetPasswordLink() {
     return Align(
       alignment: Alignment.centerRight,
@@ -146,137 +129,154 @@ class _LoginState extends State<Login> {
         },
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
-          minimumSize:  const Size(50, 30),
+          minimumSize:  Size(50, 30),
           alignment: Alignment.centerRight,
         ),
-        child: const Text(
+        child:  Text(
           'Forget Password ?',
           style: TextStyle(
             color: ColorsManager.yellow,
-            fontSize: 14,
+            fontSize: 13,
           ),
         ),
       ),
     );
   }
-
-  Widget _buildLoginButton(BuildContext context) {
+  Widget _buildLoginButton(AuthController authController) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          // 💡 هذا الجزء يمنع الدخول حتى يتم التحقق من صحة جميع الحقول
+        onPressed: authController.isLoading
+            ? null
+            : () async {
           if (_formKey.currentState!.validate()) {
-            _performLogin();
+            await authController.login(
+                _emailController.text, _passwordController.text);
+
+            if (authController.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(authController.errorMessage!)),
+              );
+            } else {
+              Navigator.pushReplacementNamed(context, RoutesManager.home);
+            }
           }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.yellow,
-          padding:  const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 18),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        child:  const Text(
+        child: authController.isLoading
+            ?  SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            color: ColorsManager.black,
+            strokeWidth: 2,
+          ),
+        )
+            :  Text(
           'Login',
-          style: TextStyle(color: ColorsManager.black, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: ColorsManager.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
-
   Widget _buildCreateAccountAndOrSeparator() {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+             Text(
               "Don't Have Account ?",
-              style: TextStyle(color:ColorsManager.white, fontSize: 15),
+              style: TextStyle(color: ColorsManager.white, fontSize: 15),
             ),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, RoutesManager.register);
               },
-              child:  const Text(
+              child:  Text(
                 ' Create One',
                 style: TextStyle(color: ColorsManager.yellow, fontSize: 15),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 15),
+         SizedBox(height: 10),
         Row(
-          children: [
-            const Expanded(child: Divider(color: ColorsManager.white, thickness: 1.5, endIndent: 5)),
-            const Padding(
+          children:  [
+            Expanded(
+                child: Divider(
+                    color: ColorsManager.yellow, thickness: 1.5, endIndent: 5)),
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text('OR', style: TextStyle(color: ColorsManager.white, fontSize: 14)),
+              child:
+              Text('OR', style: TextStyle(color: ColorsManager.yellow, fontSize: 14)),
             ),
-            const Expanded(child: Divider(color: ColorsManager.white, thickness: 1.5, indent: 5)),
+            Expanded(
+                child: Divider(
+                    color: ColorsManager.yellow, thickness: 1.5, indent: 5)),
           ],
         ),
       ],
     );
   }
-
-  Widget _buildGoogleLoginButton() {
+  Widget _buildGoogleLoginButton(AuthController authController) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: authController.isLoading
+            ? null
+            : () async {
+          try {
+            authController.setLoading(true);
+            await Future.delayed(const Duration(seconds: 2));
+            Navigator.pushReplacementNamed(context, RoutesManager.home);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Google login failed: $e')),
+            );
+          } finally {
+            authController.setLoading(false);
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.yellow,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 18),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        child: Row(
+        child: authController.isLoading
+            ? const SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            color: ColorsManager.black,
+            strokeWidth: 2,
+          ),
+        )
+            : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png',
-              height: 24,
-              width: 24,
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png',color: ColorsManager.black,
+              height: 25,
+              width: 25,
             ),
-            const SizedBox(width: 8),
-            const Text(
+             SizedBox(width: 6),
+             Text(
               'Login With Google',
-              style: TextStyle(color: ColorsManager.black, fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: ColorsManager.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageSwitch() {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color:  const Color(0xFF1E1E1E),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildFlag('usa_flag', label: '🇺🇸', isActive: true),
-          const SizedBox(width: 10),
-          _buildFlag('egypt_flag', label: '🇪🇬', isActive: false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFlag(String assetPath, {required String label, required bool isActive}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      decoration: isActive ? BoxDecoration(
-        color:  ColorsManager.yellow,
-        borderRadius: BorderRadius.circular(20),
-      ) : null,
-      child: Text(
-        label,
-        style:  const TextStyle(fontSize: 20),
       ),
     );
   }
