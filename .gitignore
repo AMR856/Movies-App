@@ -49,4 +49,8 @@ windows/
 linux/
 android/
 ios/
+web/
 macos/
+linux/
+windows/
+dummy_data/

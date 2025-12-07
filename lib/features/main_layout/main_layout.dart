@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
@@ -22,13 +23,15 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   void initState() {
-    screens = const [HomeTab(), SearchTab(), BrowserTab(), ProfileTab()];
+    screens = [const HomeTab(), const SearchTab(), const BrowserTab(), const ProfileTab()];
     controller = PageController(initialPage: currentScreen);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.sizeOf(context).height;
+    log(height.toString());
     return Scaffold(
       extendBody: false,
       body: Stack(
@@ -42,7 +45,9 @@ class _MainLayoutState extends State<MainLayout> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
-            child: BottomNavigationBar(
+            child: MediaQuery.of(context).viewInsets.bottom != 0
+                ? null
+                : BottomNavigationBar(
               currentIndex: currentScreen,
               onTap: (value) => changeSelectedIndex(value),
               backgroundColor: ColorManager.grey,
@@ -74,17 +79,17 @@ class CustomBottomNavBarItem extends BottomNavigationBarItem {
   String iconPath;
   String title;
   CustomBottomNavBarItem(this.iconPath, this.title)
-    : super(
-        label: title,
-        icon: ImageIcon(
-          AssetImage(iconPath),
-          color: ColorManager.white,
-          size: FontSize.s24.sp,
-        ),
-        activeIcon: ImageIcon(
-          AssetImage(iconPath),
-          size: FontSize.s24.sp,
-          color: ColorManager.yellow,
-        ),
-      );
+      : super(
+    label: title,
+    icon: ImageIcon(
+      AssetImage(iconPath),
+      color: ColorManager.white,
+      size: FontSize.s24.sp,
+    ),
+    activeIcon: ImageIcon(
+      AssetImage(iconPath),
+      size: FontSize.s24.sp,
+      color: ColorManager.yellow,
+    ),
+  );
 }
