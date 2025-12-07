@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // يجب استيراد مكتبة SVG
+
+// افتراض أن هذه المسارات صحيحة في مشروعك
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/widget/LanguageSwitcher.dart';
-import 'package:provider/provider.dart';
 import 'package:movies_app/core/funcation/validators.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
@@ -79,30 +82,55 @@ class _RegisterState extends State<Register> {
             key: _formKey,
             child: Column(
               children: [
-                 SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildAvatarSelectionArea(),
-                 SizedBox(height: 40),
-                _buildTextField(controller: _nameController, hintText: 'Name', icon: Icons.person, keyboardType: TextInputType.text,
-                    validator: (v) => Validators.validateName(v)
+                const SizedBox(height: 40),
+                // --- Name Field with SVG (Increased Size: 30.0) ---
+                _buildTextField(
+                  controller: _nameController,
+                  hintText: 'Name',
+                  svgPath: ImageAssets.nameIcon,
+                  keyboardType: TextInputType.text,
+                  validator: (v) => Validators.validateName(v),
+                  iconSize: 30.0,
                 ),
-                SizedBox(height: 20),
-                _buildTextField(controller: _emailController, hintText: 'Email', icon: Icons.email, keyboardType: TextInputType.emailAddress,
-                   validator: (v) => Validators.validateEmail(v)
+                const SizedBox(height: 20),
+                // --- Email Field with SVG (Default Size: 24.0) ---
+                _buildTextField(
+                  controller: _emailController,
+                  hintText: 'Email',
+                  svgPath: ImageAssets.emailIcon,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (v) => Validators.validateEmail(v),
+                  iconSize: 24.0,
                 ),
-                SizedBox(height: 20),
-                _buildPasswordTextField(),
-                 SizedBox(height: 20),
-                _buildConfirmPasswordTextField(),
-                 SizedBox(height: 20),
-                _buildTextField(controller: _phoneController, hintText: 'Phone Number', icon: Icons.phone, keyboardType: TextInputType.phone, validator: _validatePhone),
-                 SizedBox(height: 30),
+                const SizedBox(height: 20),
+                // --- Password Field with SVG ---
+                _buildPasswordTextField(
+                  svgPath: ImageAssets.passwordIcon,
+                ),
+                const SizedBox(height: 20),
+                // --- Confirm Password Field with SVG ---
+                _buildConfirmPasswordTextField(
+                  svgPath: ImageAssets.confirmPasswordIcon,
+                ),
+                const SizedBox(height: 20),
+                // --- Phone Field with SVG ---
+                _buildTextField(
+                  controller: _phoneController,
+                  hintText: 'Phone Number',
+                  svgPath: ImageAssets.phoneIcon,
+                  keyboardType: TextInputType.phone,
+                  validator: _validatePhone,
+                  iconSize: 24.0,
+                ),
+                const SizedBox(height: 30),
                 _buildCreateAccountButton(authController),
-                 SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildLoginLink(),
-                 SizedBox(height: 40),
-                 LanguageSwitcher(),
-
-                 SizedBox(height: 20),
+                const SizedBox(height: 40),
+                const LanguageSwitcher(),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -112,7 +140,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget _buildAvatarSelectionArea() {
-     List<String> avatarPaths = [
+    List<String> avatarPaths = [
       ImageAssets.person1,
       ImageAssets.person2,
       ImageAssets.person3,
@@ -132,23 +160,24 @@ class _RegisterState extends State<Register> {
             );
           }).toList(),
         ),
-         SizedBox(height: 8),
-         Text(
+        const SizedBox(height: 8),
+        Text(
           'Avatar',
           style: TextStyle(color: ColorsManager.white, fontSize: 16),
         ),
       ],
     );
   }
+
   Widget _buildAvatar(String imagePath, {required bool isSelected}) {
     double size = isSelected ? 95 : 75;
 
     return AnimatedContainer(
-      duration:  Duration(milliseconds: 200),
+      duration:  const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       width: size,
       height: size,
-      decoration:  BoxDecoration(
+      decoration:  const BoxDecoration(
         shape: BoxShape.circle,
       ),
       child: ClipOval(
@@ -157,7 +186,7 @@ class _RegisterState extends State<Register> {
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              color: Colors.grey.shade800,
+              color: Colors.grey,
               child:  Icon(Icons.person, color:ColorsManager.white, size: 40),
             );
           },
@@ -166,12 +195,14 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  // تم تعديل هذه الدالة لاستقبال iconSize وتطبيقها
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,
-    required IconData icon,
+    required String svgPath,
     required TextInputType keyboardType,
     String? Function(String?)? validator,
+    double iconSize = 24.0,
   }) {
     return TextFormField(
       controller: controller,
@@ -179,7 +210,21 @@ class _RegisterState extends State<Register> {
       style:  TextStyle(color: ColorsManager.white),
       validator: validator,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: ColorsManager.white),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath,
+            colorFilter: const ColorFilter.mode(ColorsManager.white, BlendMode.srcIn),
+            height: iconSize,
+            width: iconSize,
+            // إضافة Placeholder في حالة فشل التحميل
+            placeholderBuilder: (context) => Icon(
+              Icons.error,
+              color: ColorsManager.red,
+              size: iconSize,
+            ),
+          ),
+        ),
         hintText: hintText,
         hintStyle:  TextStyle(color: ColorsManager.white),
         filled: true,
@@ -202,14 +247,29 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget _buildPasswordTextField() {
+  // تم تحديث الدالة لأخذ svgPath وتطبيق إعدادات الخطأ
+  Widget _buildPasswordTextField({required String svgPath}) {
+    const double iconSize = 24.0;
     return TextFormField(
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
       style:  TextStyle(color: ColorsManager.white),
-       validator: (value) => Validators.validatePassword(value),
+      validator: (value) => Validators.validatePassword(value),
       decoration: InputDecoration(
-        prefixIcon:  Icon(Icons.lock, color: ColorsManager.white),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath,
+            colorFilter: const ColorFilter.mode(ColorsManager.white, BlendMode.srcIn),
+            height: iconSize,
+            width: iconSize,
+            placeholderBuilder: (context) => Icon(
+              Icons.lock,
+              color: ColorsManager.white,
+              size: iconSize,
+            ),
+          ),
+        ),
         suffixIcon: IconButton(
           icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: ColorsManager.white, size: 20),
           onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
@@ -220,20 +280,46 @@ class _RegisterState extends State<Register> {
         fillColor: ColorsManager.grey,
         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+        errorStyle:  TextStyle(color: ColorsManager.red, fontSize: 13),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide:  BorderSide(color: ColorsManager.red, width: 1.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide:  BorderSide(color: ColorsManager.red, width: 1.0),
+        ),
       ),
     );
   }
 
-  Widget _buildConfirmPasswordTextField() {
+  // **** تم تحديث هذا القسم: الحجم أصبح 24.0 (مثل كلمة المرور) وإضافة Placeholder ****
+  Widget _buildConfirmPasswordTextField({required String svgPath}) {
+    // تم تحديد الحجم ليتطابق مع حقل كلمة المرور (24.0)
+    const double iconSize = 24.0;
     return TextFormField(
       controller: _confirmPasswordController,
       obscureText: !_isConfirmPasswordVisible,
       style:  TextStyle(color: ColorsManager.white),
       validator: _validateConfirmPassword,
       decoration: InputDecoration(
-        prefixIcon:  Icon(Icons.lock, color: ColorsManager.white),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath, // <--- الآن يتم استخدام المتغير الممرر (svgPath)
+            colorFilter: const ColorFilter.mode(ColorsManager.white, BlendMode.srcIn),
+            height: iconSize,
+            width: iconSize,
+            // **** الحل البديل: سيتم عرض هذا إذا لم يتم تحميل SVG بنجاح ****
+            placeholderBuilder: (context) => Icon(
+              Icons.lock_open_rounded, // أيقونة بديلة لـ "تأكيد كلمة المرور"
+              color: ColorsManager.white,
+              size: iconSize,
+            ),
+          ),
+        ),
         suffixIcon: IconButton(
-          icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.white70, size: 20),
+          icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off, color: ColorsManager.white, size: 20),
           onPressed: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
         ),
         hintText: 'Confirm Password',
@@ -242,6 +328,15 @@ class _RegisterState extends State<Register> {
         fillColor: ColorsManager.grey,
         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
+        errorStyle:  TextStyle(color: ColorsManager.red, fontSize: 13),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide:  BorderSide(color: ColorsManager.red, width: 1.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide:  BorderSide(color: ColorsManager.red, width: 1.0),
+        ),
       ),
     );
   }
@@ -253,21 +348,21 @@ class _RegisterState extends State<Register> {
         onPressed: authController.isLoading
             ? null
             : () async {
-           if (_formKey.currentState!.validate()) {
-          await authController.register(
-            name: _nameController.text,
-            email: _emailController.text,
-            password: _passwordController.text,
-            confirmPassword: _confirmPasswordController.text,
-            phone: _phoneController.text,
-            avatar: _getAvatarId(_selectedAvatarPath).toString(),
-          );
-          if (authController.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authController.errorMessage!)));
-          } else {
-            Navigator.pushReplacementNamed(context, RoutesManager.home);
+          if (_formKey.currentState!.validate()) {
+            await authController.register(
+              name: _nameController.text,
+              email: _emailController.text,
+              password: _passwordController.text,
+              confirmPassword: _confirmPasswordController.text,
+              phone: _phoneController.text,
+              avatar: _getAvatarId(_selectedAvatarPath).toString(),
+            );
+            if (authController.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(authController.errorMessage!)));
+            } else {
+              Navigator.pushReplacementNamed(context, RoutesManager.home);
+            }
           }
-           }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor:ColorsManager.yellow,
@@ -285,7 +380,7 @@ class _RegisterState extends State<Register> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-         Text("Already Have Account ?", style: TextStyle(color: ColorsManager.white, fontSize: 15)),
+        Text("Already Have Account ?", style: TextStyle(color: ColorsManager.white, fontSize: 15)),
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child:  Text(' Login', style: TextStyle(color: ColorsManager.yellow, fontSize: 15)),
@@ -293,6 +388,4 @@ class _RegisterState extends State<Register> {
       ],
     );
   }
-
-
 }

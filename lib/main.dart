@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: RoutesManager.Routes(),
 
-      /// 🔥 أهم تعديل
       initialRoute: RoutesManager.splashScreen,
     );
   }

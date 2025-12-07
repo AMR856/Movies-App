@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/widget/LanguageSwitcher.dart';
 import 'package:provider/provider.dart';
 import 'package:movies_app/core/funcation/validators.dart';
@@ -72,15 +74,23 @@ class _LoginState extends State<Login> {
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
-      style:  TextStyle(color: ColorsManager.white),
+      style: TextStyle(color: ColorsManager.white),
       validator: (value) => Validators.validateEmail(value),
       decoration: InputDecoration(
-        prefixIcon:  Icon(Icons.email, color: ColorsManager.white),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            ImageAssets.emailIcon,   // ← حط اسم الملف هنا
+            color: ColorsManager.white,
+            width: 20,
+            height: 20,
+          ),
+        ),
         hintText: 'Email',
-        hintStyle:  TextStyle(color: ColorsManager.white),
+        hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor:  ColorsManager.grey,
-        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        fillColor: ColorsManager.grey,
+        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
@@ -92,10 +102,18 @@ class _LoginState extends State<Login> {
     return TextFormField(
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
-      style:  TextStyle(color: ColorsManager.white),
+      style: TextStyle(color: ColorsManager.white),
       validator: (value) => Validators.validatePassword(value),
       decoration: InputDecoration(
-        prefixIcon:  Icon(Icons.lock, color: ColorsManager.white),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            ImageAssets.passwordIcon,   // ← غير ده لاسم ملفك
+            color: ColorsManager.white,
+            width: 20,
+            height: 20,
+          ),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -109,10 +127,10 @@ class _LoginState extends State<Login> {
           },
         ),
         hintText: 'Password',
-        hintStyle: const TextStyle(color: ColorsManager.white),
+        hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
         fillColor: ColorsManager.grey,
-        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
@@ -132,7 +150,7 @@ class _LoginState extends State<Login> {
           minimumSize:  Size(50, 30),
           alignment: Alignment.centerRight,
         ),
-        child:  Text(
+        child:const  Text(
           'Forget Password ?',
           style: TextStyle(
             color: ColorsManager.yellow,
@@ -168,7 +186,7 @@ class _LoginState extends State<Login> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         child: authController.isLoading
-            ?  SizedBox(
+            ? const SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
@@ -176,7 +194,7 @@ class _LoginState extends State<Login> {
             strokeWidth: 2,
           ),
         )
-            :  Text(
+            :const  Text(
           'Login',
           style: TextStyle(
               color: ColorsManager.black,
@@ -192,7 +210,7 @@ class _LoginState extends State<Login> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Text(
+            const Text(
               "Don't Have Account ?",
               style: TextStyle(color: ColorsManager.white, fontSize: 15),
             ),
@@ -200,14 +218,14 @@ class _LoginState extends State<Login> {
               onTap: () {
                 Navigator.pushNamed(context, RoutesManager.register);
               },
-              child:  Text(
+              child: const Text(
                 ' Create One',
                 style: TextStyle(color: ColorsManager.yellow, fontSize: 15),
               ),
             ),
           ],
         ),
-         SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(
           children:  [
             Expanded(
@@ -251,7 +269,7 @@ class _LoginState extends State<Login> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         child: authController.isLoading
-            ? const SizedBox(
+            ?  SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
@@ -267,8 +285,8 @@ class _LoginState extends State<Login> {
               height: 25,
               width: 25,
             ),
-             SizedBox(width: 6),
-             Text(
+              SizedBox(width: 6),
+              Text(
               'Login With Google',
               style: TextStyle(
                   color: ColorsManager.black,
