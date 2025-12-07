@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/config/theme/theme_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
 import 'package:movies_app/core/di/di.dart';
+import 'package:movies_app/features/authentication/utils/auth_controller.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           supportedLocales: const [Locale('en'), Locale('ar')],
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: RoutesManager.mainLayout,
+          initialRoute: RoutesManager.splashScreen,
         );
       },
     );

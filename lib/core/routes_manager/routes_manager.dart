@@ -11,7 +11,7 @@ import 'package:movies_app/features/onboarding/onboarding.dart';
 import 'package:movies_app/features/splash/splash_screen.dart';
 import 'package:movies_app/features/update_profile/presentation/cubit/avatar_cubit.dart';
 import 'package:movies_app/features/update_profile/presentation/cubit/update_profile_cubit.dart';
-import 'package:movies_app/features/update_profile/update_profile.dart';
+import 'package:movies_app/features/update_profile/presentation/update_profile.dart';
 
 abstract class RoutesManager {
   static const String splashScreen = '/splashScreen';

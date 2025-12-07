@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/functions/validators.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/core/widgets/LanguageSwitcher.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
+import 'package:movies_app/features/authentication/utils/auth_controller.dart';
+import 'package:movies_app/core/functions/validators.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -9,13 +14,14 @@ class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
 }
+
 class _RegisterState extends State<Register> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
   String _selectedAvatarPath = ImageAssets.person2;
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
@@ -30,46 +36,49 @@ class _RegisterState extends State<Register> {
     _phoneController.dispose();
     super.dispose();
   }
+
   String? _validateConfirmPassword(String? confirmPassword) {
-    if (confirmPassword == null || confirmPassword.isEmpty) {
+    if (confirmPassword == null || confirmPassword.isEmpty)
       return "Confirm Password is Required";
-    }
-    if (confirmPassword != _passwordController.text) {
+    if (confirmPassword != _passwordController.text)
       return "Passwords do not match";
-    }
     return null;
   }
+
   String? _validatePhone(String? phone) {
-    if (phone == null || phone.trim().isEmpty) {
+    if (phone == null || phone.trim().isEmpty)
       return "Phone Number is Required";
-    }
-    if (phone.length < 8) {
-      return "Phone should be at least 8 digits";
-    }
+    if (phone.length < 8) return "Phone should be at least 8 digits";
     return null;
   }
-  void _performRegistration() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Registration Successful!')),
-    );
-     // Navigator.pushReplacementNamed(context, RoutesManager.home);
+
+  int _getAvatarId(String path) {
+    if (path == ImageAssets.person1) return 1;
+    if (path == ImageAssets.person2) return 2;
+    if (path == ImageAssets.person3) return 3;
+    return 1;
   }
+
   @override
   Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ColorsManager.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: ColorsManager.black,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFFFFCC00)),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: Icon(Icons.arrow_back, color: ColorsManager.yellow),
+          onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Register',
-          style: TextStyle(color: Color(0xFFFFCC00), fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+            color: ColorsManager.yellow,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
         centerTitle: true,
       ),
@@ -80,55 +89,48 @@ class _RegisterState extends State<Register> {
             key: _formKey,
             child: Column(
               children: [
-                 SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildAvatarSelectionArea(),
-                 SizedBox(height: 40),
-
+                const SizedBox(height: 40),
                 _buildTextField(
                   controller: _nameController,
                   hintText: 'Name',
-                  icon: Icons.person,
+                  svgPath: ImageAssets.nameIcon,
                   keyboardType: TextInputType.text,
-                  validator: Validators.validateName,
+                  validator: (v) => Validators.validateName(v),
+                  iconSize: 30.0,
                 ),
-                 SizedBox(height: 20),
-
+                const SizedBox(height: 20),
+                // --- Email Field with SVG (Default Size: 24.0) ---
                 _buildTextField(
                   controller: _emailController,
                   hintText: 'Email',
-                  icon: Icons.email,
+                  svgPath: ImageAssets.emailIcon,
                   keyboardType: TextInputType.emailAddress,
-                  validator: Validators.validateEmail,
+                  validator: (v) => Validators.validateEmail(v),
+                  iconSize: 24.0,
                 ),
                 const SizedBox(height: 20),
-                _buildPasswordTextField(),
+                _buildPasswordTextField(svgPath: ImageAssets.passwordIcon),
                 const SizedBox(height: 20),
-
-                _buildConfirmPasswordTextField(),
+                _buildConfirmPasswordTextField(
+                  svgPath: ImageAssets.confirmPasswordIcon,
+                ),
                 const SizedBox(height: 20),
-
-                // 📞 حقل رقم الهاتف (Phone Number)
                 _buildTextField(
                   controller: _phoneController,
                   hintText: 'Phone Number',
-                  icon: Icons.phone,
+                  svgPath: ImageAssets.phoneIcon,
                   keyboardType: TextInputType.phone,
-                  // 💡 ربط validatePhone
                   validator: _validatePhone,
+                  iconSize: 24.0,
                 ),
                 const SizedBox(height: 30),
-
-                // 🔑 زر إنشاء حساب (Create Account Button)
-                _buildCreateAccountButton(context),
-
+                _buildCreateAccountButton(authController),
                 const SizedBox(height: 20),
-
-                // رابط "لدي حساب بالفعل؟" (Already Have Account?)
                 _buildLoginLink(),
-
-                // مفتاح اللغة (Language Switch)
                 const SizedBox(height: 40),
-                _buildLanguageSwitch(),
+                const LanguageSwitcher(),
                 const SizedBox(height: 20),
               ],
             ),
@@ -137,13 +139,13 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
   Widget _buildAvatarSelectionArea() {
-    const List<String> avatarPaths = [
+    List<String> avatarPaths = [
       ImageAssets.person1,
       ImageAssets.person2,
       ImageAssets.person3,
     ];
-
     return Column(
       children: [
         Row(
@@ -163,224 +165,277 @@ class _RegisterState extends State<Register> {
           }).toList(),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Avatar',
-          style: TextStyle(color: Colors.white70, fontSize: 16),
+          style: TextStyle(color: ColorsManager.white, fontSize: 16),
         ),
       ],
     );
   }
 
   Widget _buildAvatar(String imagePath, {required bool isSelected}) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: isSelected
-            ? Border.all(color: const Color(0xFFFFCC00), width: 4) // إطار أصفر
-            : Border.all(color: Colors.transparent),
-      ),
+    double size = isSelected ? 95 : 75;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+      width: size,
+      height: size,
+      decoration: const BoxDecoration(shape: BoxShape.circle),
       child: ClipOval(
         child: Image.asset(
           imagePath,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              color: Colors.grey.shade800,
-              child: const Icon(Icons.person, color: Colors.white70, size: 40),
+              color: Colors.grey,
+              child: Icon(Icons.person, color: ColorsManager.white, size: 40),
             );
           },
         ),
       ),
     );
   }
+
+  // تم تعديل هذه الدالة لاستقبال iconSize وتطبيقها
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,
-    required IconData icon,
+    required String svgPath,
     required TextInputType keyboardType,
     String? Function(String?)? validator,
+    double iconSize = 24.0,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: ColorsManager.white),
       validator: validator,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: const Color(0xFFFFCC00)),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath,
+            colorFilter: const ColorFilter.mode(
+              ColorsManager.white,
+              BlendMode.srcIn,
+            ),
+            height: iconSize,
+            width: iconSize,
+            placeholderBuilder: (context) =>
+                Icon(Icons.error, color: ColorsManager.red, size: iconSize),
+          ),
+        ),
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor: const Color(0xFF1E1E1E),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        fillColor: ColorsManager.grey,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 18,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
         ),
-        errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 13),
+        errorStyle: TextStyle(color: ColorsManager.red, fontSize: 13),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.red, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
       ),
     );
   }
-  Widget _buildPasswordTextField() {
+
+  // تم تحديث الدالة لأخذ svgPath وتطبيق إعدادات الخطأ
+  Widget _buildPasswordTextField({required String svgPath}) {
+    const double iconSize = 24.0;
     return TextFormField(
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
-      style: const TextStyle(color: Colors.white),
-      validator: Validators.validatePassword,
+      style: TextStyle(color: ColorsManager.white),
+      validator: (value) => Validators.validatePassword(value),
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.lock, color: Color(0xFFFFCC00)),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath,
+            colorFilter: const ColorFilter.mode(
+              ColorsManager.white,
+              BlendMode.srcIn,
+            ),
+            height: iconSize,
+            width: iconSize,
+            placeholderBuilder: (context) =>
+                Icon(Icons.lock, color: ColorsManager.white, size: iconSize),
+          ),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Colors.white70,
+            color: ColorsManager.white,
             size: 20,
           ),
-          onPressed: () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          },
+          onPressed: () =>
+              setState(() => _isPasswordVisible = !_isPasswordVisible),
         ),
         hintText: 'Password',
-        hintStyle: const TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor: const Color(0xFF1E1E1E),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        fillColor: ColorsManager.grey,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 18,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
         ),
-        errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 13),
+        errorStyle: TextStyle(color: ColorsManager.red, fontSize: 13),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.red, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
       ),
     );
   }
-  Widget _buildConfirmPasswordTextField() {
+
+  // **** تم تحديث هذا القسم: الحجم أصبح 24.0 (مثل كلمة المرور) وإضافة Placeholder ****
+  Widget _buildConfirmPasswordTextField({required String svgPath}) {
+    const double iconSize = 24.0;
     return TextFormField(
       controller: _confirmPasswordController,
       obscureText: !_isConfirmPasswordVisible,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: ColorsManager.white),
       validator: _validateConfirmPassword,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.lock, color: Color(0xFFFFCC00)),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            svgPath, // <--- الآن يتم استخدام المتغير الممرر (svgPath)
+            colorFilter: const ColorFilter.mode(
+              ColorsManager.white,
+              BlendMode.srcIn,
+            ),
+            height: iconSize,
+            width: iconSize,
+          ),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Colors.white70,
+            color: ColorsManager.white,
             size: 20,
           ),
-          onPressed: () {
-            setState(() {
-              _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-            });
-          },
+          onPressed: () => setState(
+            () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible,
+          ),
         ),
         hintText: 'Confirm Password',
-        hintStyle: const TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
-        fillColor: const Color(0xFF1E1E1E),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15),
+        fillColor: ColorsManager.grey,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 18,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
         ),
-        errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 13),
+        errorStyle: TextStyle(color: ColorsManager.red, fontSize: 13),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.red, width: 1.0),
+          borderSide: BorderSide(color: ColorsManager.red, width: 1.0),
         ),
       ),
     );
   }
-  Widget _buildCreateAccountButton(BuildContext context) {
+
+  Widget _buildCreateAccountButton(AuthController authController) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _performRegistration();
-          }
-        },
+        onPressed: authController.isLoading
+            ? null
+            : () async {
+                if (_formKey.currentState!.validate()) {
+                  await authController.register(
+                    name: _nameController.text,
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                    confirmPassword: _confirmPasswordController.text,
+                    phone: _phoneController.text,
+                    avatar: _getAvatarId(_selectedAvatarPath).toString(),
+                  );
+                  if (authController.errorMessage != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(authController.errorMessage!)),
+                    );
+                  } else {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutesManager.mainLayout,
+                    );
+                  }
+                }
+              },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFCC00),
+          backgroundColor: ColorsManager.yellow,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        child: const Text(
-          'Create Account',
-          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        child: authController.isLoading
+            ? SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  color: ColorsManager.black,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                'Create Account',
+                style: TextStyle(
+                  color: ColorsManager.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }
+
   Widget _buildLoginLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           "Already Have Account ?",
-          style: TextStyle(color: Colors.white70, fontSize: 15),
+          style: TextStyle(color: ColorsManager.white, fontSize: 15),
         ),
         GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Text(
+          onTap: () => Navigator.pop(context),
+          child: Text(
             ' Login',
-            style: TextStyle(color: Color(0xFFFFCC00), fontSize: 15),
+            style: TextStyle(color: ColorsManager.yellow, fontSize: 15),
           ),
         ),
       ],
-    );
-  }
-  Widget _buildLanguageSwitch() {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildFlag('usa_flag', label: '🇺🇸', isActive: true),
-           SizedBox(width: 10),
-          _buildFlag('egypt_flag', label: '🇪🇬', isActive: false),
-        ],
-      ),
-    );
-  }
-  Widget _buildFlag(String assetPath, {required String label, required bool isActive}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      decoration: isActive ? BoxDecoration(
-        color: const Color(0xFFFFCC00),
-        borderRadius: BorderRadius.circular(20),
-      ) : null,
-      child: const Text(
-        '🇪🇬',
-        style: TextStyle(fontSize: 20),
-      ),
     );
   }
 }

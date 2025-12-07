@@ -48,7 +48,6 @@ dependencies:
   path_provider: ^2.0.16
   path: ^1.8.3
   url_launcher: ^6.3.2
-  provider: ^6.1.5+1
   http: ^1.6.0
   fluttertoast: ^9.0.0
   flutter_secure_storage: ^8.0.0
@@ -56,6 +55,8 @@ dependencies:
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
   intl: ^0.18.0
+  flutter_svg: ^2.0.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
