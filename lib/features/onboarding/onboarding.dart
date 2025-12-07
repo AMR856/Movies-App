@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/models/onboarding_model.dart';
+import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/features/onboarding/onboarding_model.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -26,7 +27,7 @@ class _Onboarding extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ColorsManager.black,
       body: Column(
         children: [
           Expanded(
@@ -71,11 +72,11 @@ class _Onboarding extends State<OnboardingView> {
               curve: Curves.easeIn,
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFCC00),
+              backgroundColor:  ColorsManager.yellow,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Explore Now', style: TextStyle(color: Colors.black, fontSize: 18)),
+            child:  Text('Explore Now', style: TextStyle(color: ColorsManager.black, fontSize: 18)),
           ),
         ),
       ],
@@ -92,17 +93,16 @@ class _Onboarding extends State<OnboardingView> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, RoutesManager.login);
-              },
+                Navigator.pushNamed(context, RoutesManager.login);              },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFCC00),
+                backgroundColor: ColorsManager.yellow,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              child: const Text('Finish', style: TextStyle(color: Colors.black, fontSize: 18)),
+              child:  Text('Finish', style: TextStyle(color: ColorsManager.black, fontSize: 18)),
             ),
           ),
-          const SizedBox(height: 15),
+           SizedBox(height: 15),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -111,14 +111,14 @@ class _Onboarding extends State<OnboardingView> {
                 curve: Curves.easeIn,
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
+                backgroundColor: ColorsManager.black,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(color: Color(0xFFFFCC00), width: 1.5),
+                  side:  BorderSide(color: ColorsManager.yellow, width: 1.5),
                 ),
               ),
-              child: const Text('Back', style: TextStyle(color: Color(0xFFFFCC00), fontSize: 18)),
+              child:  Text('Back', style: TextStyle(color: ColorsManager.yellow, fontSize: 18)),
             ),
           ),
         ],
@@ -135,20 +135,20 @@ class _Onboarding extends State<OnboardingView> {
           child: ElevatedButton(
             onPressed: () {
               _pageController.nextPage(
-                duration: const Duration(milliseconds: 400),
+                duration:  Duration(milliseconds: 400),
                 curve: Curves.easeIn,
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFCC00),
+              backgroundColor: ColorsManager.yellow,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Next', style: TextStyle(color: Colors.black, fontSize: 18)),
+            child:  Text('Next', style: TextStyle(color: ColorsManager.black, fontSize: 18)),
           ),
         ),
         if (showBackButton) ...[
-          const SizedBox(height: 15),
+           SizedBox(height: 15),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
@@ -158,10 +158,10 @@ class _Onboarding extends State<OnboardingView> {
               ),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                side: const BorderSide(color: Color(0xFFFFCC00)),
+                side:  BorderSide(color: ColorsManager.yellow),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              child: const Text('Back', style: TextStyle(color: Color(0xFFFFCC00), fontSize: 18)),
+              child:  Text('Back', style: TextStyle(color:ColorsManager.yellow, fontSize: 18)),
             ),
           ),
         ],
@@ -183,7 +183,7 @@ class OnboardingPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final BoxDecoration cardDecoration = isOpaque
         ? BoxDecoration(
-      color: Colors.black,
+      color: ColorsManager.black,
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),
         topRight: Radius.circular(30),
@@ -196,9 +196,9 @@ class OnboardingPageContent extends StatelessWidget {
         colors: [
           Colors.transparent,
           Colors.black.withOpacity(0.9),
-          Colors.black,
+          ColorsManager.black,
         ],
-        stops: const [0.0, 0.7, 1.0],
+        stops:  [0.0, 0.7, 1.0],
       ),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),
@@ -218,8 +218,8 @@ class OnboardingPageContent extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
 
-            padding: const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 0),
-            decoration: cardDecoration, // استخدام الـ BoxDecoration المحدد
+            padding:  EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 0),
+            decoration: cardDecoration,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -228,23 +228,23 @@ class OnboardingPageContent extends StatelessWidget {
                 Text(
                   data.title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: ColorsManager.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
                 if (data.description.isNotEmpty)
                   Text(
                     data.description,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 16,
-                      color: Colors.white70,
+                      color: ColorsManager.white,
                     ),
                   ),
-                const SizedBox(height: 25),
+                 SizedBox(height: 25),
               ],
             ),
           ),

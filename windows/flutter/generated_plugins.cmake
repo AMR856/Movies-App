@@ -3,7 +3,11 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< HEAD
   url_launcher_windows
+=======
+  flutter_secure_storage_windows
+>>>>>>> feature/auth
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
