@@ -14,7 +14,7 @@ class UpdateProfileRequest {
   Map<String, dynamic> toJson() {
     return {
       if (email != null) 'email': email,
-      if (avatarId != null) 'avatarId': avatarId,
+      if (avatarId != null) 'avaterId': avatarId,
       if (name != null) 'name': name,
       if (phone != null) 'phone': phone,
     };

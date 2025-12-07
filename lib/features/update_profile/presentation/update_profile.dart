@@ -27,7 +27,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  int selectedAvatarIndex = 1;
   bool _loadedArgs = false;
 
   @override
@@ -37,8 +36,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-      nameController.text = args['name'];
-      phoneController.text = args['phone'];
+      nameController.text = args['name'] ?? "";
+      phoneController.text = args['phone'] ?? "";
 
       context.read<AvatarCubit>().selectAvatar((args['avatarId'] ?? 1) - 1);
 
@@ -50,19 +49,26 @@ class _UpdateProfileState extends State<UpdateProfile> {
   Widget build(BuildContext context) {
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) async {
-        if (state is UpdateProfileLoading) {
+        if (state is UpdateProfileLoading || state is DeleteProfileLoading) {
           Loading.showLoading(context);
         } else {
           Loading.stopLoading(context);
         }
+
         if (state is UpdateProfileSuccess) {
-          Toasts.showToast(
-            ColorManager.green,
-            "Profile updated successfully",
-          );
+          Toasts.showToast(ColorManager.green, "Profile updated successfully");
           Navigator.pop(context);
         }
+
+        if (state is DeleteProfileSuccess) {
+          Toasts.showToast(ColorManager.red, "Account deleted successfully");
+          Navigator.pop(context);
+        }
+
         if (state is UpdateProfileError) {
+          Toasts.showToast(ColorManager.red, state.message);
+        }
+        if (state is DeleteProfileError) {
           Toasts.showToast(ColorManager.red, state.message);
         }
       },
@@ -76,7 +82,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 onTap: () => Navigator.pop(context),
                 child: Image.asset(IconsAssets.icon5Arrow),
               ),
-              title: const Text('Pick Avatar'),
+              title: const Text('Update Profile'),
               centerTitle: true,
             ),
             body: Padding(
@@ -99,41 +105,67 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       );
                     },
                   ),
+
                   SizedBox(height: 20.h),
+
                   CustomTextFiled(
                     controller: nameController,
                     icon: CupertinoIcons.person_fill,
                     validator: Validator.validateName,
                   ),
+
                   SizedBox(height: 20.h),
+
                   CustomTextFiled(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
                     icon: CupertinoIcons.phone_fill,
                     validator: Validator.validatePhone,
                   ),
+
                   const Spacer(),
+
                   CustomElevatedButton(
-                    bgColor: ColorManager.yellow,
-                    fgColor: ColorManager.primary,
+                    bgColor: ColorManager.red,
+                    fgColor: ColorManager.white,
                     fontSize: AppSize.s20.sp,
                     fontWeight: FontWeight.w400,
-                    horizontal: 0,
-                    text: 'Update Data',
                     onPressed: () {
-                      if (!formKey.currentState!.validate()) return;
+                      context.read<UpdateProfileCubit>().deleteProfile();
+                    },
+                    horizontal: 0,
+                    text: 'Delete Account',
+                  ),
 
-                      final request = UpdateProfileRequest(
-                        name: nameController.text,
-                        phone: phoneController.text,
-                        avatarId: selectedAvatarIndex + 1,
-                        email: 'amer.live477@gmail.com',
-                      );
-                      context.read<UpdateProfileCubit>().updateProfile(
-                        request,
+                  SizedBox(height: 20.h),
+
+                  BlocBuilder<AvatarCubit, int>(
+                    builder: (context, selectedAvatarIndex) {
+                      return CustomElevatedButton(
+                        bgColor: ColorManager.yellow,
+                        fgColor: ColorManager.primary,
+                        fontSize: AppSize.s20.sp,
+                        fontWeight: FontWeight.w400,
+                        horizontal: 0,
+                        text: 'Update Data',
+                        onPressed: () {
+                          if (!formKey.currentState!.validate()) return;
+
+                          final request = UpdateProfileRequest(
+                            name: nameController.text,
+                            phone: phoneController.text,
+                            avatarId: context.read<AvatarCubit>().state + 1,
+                            email: 'amer.live477@gmail.com',
+                          );
+
+                          context.read<UpdateProfileCubit>().updateProfile(
+                            request,
+                          );
+                        },
                       );
                     },
                   ),
+
                   SizedBox(height: 20.h),
                 ],
               ),

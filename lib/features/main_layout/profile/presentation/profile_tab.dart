@@ -155,7 +155,9 @@ class _ProfileTabState extends State<ProfileTab> {
                                     'phone': profile.phone,
                                     'avatarId': profile.avatarId,
                                   },
-                                );
+                                ).then((_) {
+                                  context.read<ProfileCubit>().getProfile();
+                                });
                               },
                             ),
                             CustomElevatedButton(

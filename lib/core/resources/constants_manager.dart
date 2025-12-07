@@ -9,6 +9,7 @@ abstract class ApiConstant {
   static const String profileEndpoint = 'profile';
   static const String favoritesAllEndpoint = '/favorites/all';
   static const String updateProfileEndpoint = 'profile';
+  static const String deleteProfileEndpoint = 'profile';
 }
 
 abstract class CacheConstant {

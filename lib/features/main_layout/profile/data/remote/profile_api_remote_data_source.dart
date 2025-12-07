@@ -13,7 +13,7 @@ class ProfileApiRemoteDataSource implements ProfileRemoteDataSource {
       baseUrl: ApiConstant.routeBaseURL,
       headers: {
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzFkMWQyMjczNGMyNzBlNTc5NTBmOCIsImVtYWlsIjoiYW1lci5saXZlNDc3QGdtYWlsLmNvbSIsImlhdCI6MTc2NDk0MDY0NH0.qg6ux-Tz-onaMWnYJv40kX3wm6-147DpUrgRdIt9790',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzU2MWYzMWRlYjEwMjRmMWU4YWM2NiIsImVtYWlsIjoiYW1lci5saXZlNDc3QGdtYWlsLmNvbSIsImlhdCI6MTc2NTEwNjE3Mn0.emdN3wDMv1jFHpOVw5XFxAzGJW9mhZwPZIMXwxmhoJw',
         'Content-Type': 'application/json',
       },
     ),
@@ -26,7 +26,6 @@ class ProfileApiRemoteDataSource implements ProfileRemoteDataSource {
       return ProfileResponse.fromJson(response.data);
     } catch (exception) {
       String? message;
-      print(exception.toString());
       if (exception is DioException) {
         message = exception.response?.data['message'] ?? exception.message;
       }
@@ -41,7 +40,6 @@ class ProfileApiRemoteDataSource implements ProfileRemoteDataSource {
       return FavoriteResponse.fromJson(response.data);
     } catch (exception) {
       String? message;
-      print(exception.toString());
       if (exception is DioException) {
         message = exception.response?.data['message'] ?? exception.message;
       }

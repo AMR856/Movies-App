@@ -11,9 +11,7 @@ class DatabaseHelper {
   static final String dbName = 'app.db';
   factory DatabaseHelper() => _instance;
   DatabaseHelper._internal();
-
   static Database? _database;
-
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
@@ -30,7 +28,6 @@ class DatabaseHelper {
       onCreate: _onCreate,
     );
   }
-
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE history (
@@ -40,20 +37,16 @@ class DatabaseHelper {
       )
     ''');
   }
-
   Future<int> insertHistory(Map<String, dynamic> row) async {
     Database db = await database;
     return await db.insert(historyTable, row);
   }
-
   Future<List<Map<String, dynamic>>> getHistory() async {
     Database db = await database;
     return await db.query(historyTable);
   }
-
   Future<int> deleteHistory(int id) async {
     Database db = await database;
     return await db.delete(historyTable, where: 'id = ?', whereArgs: [id]);
   }
-
 }

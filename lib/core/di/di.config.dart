@@ -12,6 +12,18 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:movies_app/config/db/db_helper.dart' as _i83;
+import 'package:movies_app/features/main_layout/browser/data/data_source/remote/movies_api_remote_data_source.dart'
+    as _i934;
+import 'package:movies_app/features/main_layout/browser/data/data_source/remote/movies_remote_data_source.dart'
+    as _i350;
+import 'package:movies_app/features/main_layout/browser/data/repositories_impl/movies_repositories_impl.dart'
+    as _i262;
+import 'package:movies_app/features/main_layout/browser/domain/repositories/movies_repositories.dart'
+    as _i908;
+import 'package:movies_app/features/main_layout/browser/domain/use_cases/get_movies_use_case.dart'
+    as _i538;
+import 'package:movies_app/features/main_layout/browser/presentation/cubit/movies_by_genre_cubit.dart'
+    as _i38;
 import 'package:movies_app/features/main_layout/home/data/data_source/remote/movies_api_remote_data_source.dart'
     as _i434;
 import 'package:movies_app/features/main_layout/home/data/data_source/remote/movies_remote_data_source.dart'
@@ -88,6 +100,8 @@ import 'package:movies_app/features/update_profile/data/repositories_impl/update
     as _i52;
 import 'package:movies_app/features/update_profile/domain/repositories/update_profile_repository.dart'
     as _i842;
+import 'package:movies_app/features/update_profile/domain/use_cases/delete_profile_use_case.dart'
+    as _i602;
 import 'package:movies_app/features/update_profile/domain/use_cases/update_profile_use_case.dart'
     as _i116;
 import 'package:movies_app/features/update_profile/presentation/cubit/update_profile_cubit.dart'
@@ -109,6 +123,9 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i630.UpdateProfileRemoteDataSource>(),
       ),
     );
+    gh.singleton<_i350.MoviesRemoteDataSource>(
+      () => _i934.MoviesApiRemoteDataSource(),
+    );
     gh.singleton<_i225.ProfileRemoteDataSource>(
       () => _i915.ProfileApiRemoteDataSource(),
     );
@@ -126,6 +143,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i541.SearchRemoteDataSource>(
       () => _i245.SearchApiRemoteDataSource(),
     );
+    gh.lazySingleton<_i908.MoviesRepositories>(
+      () => _i262.MoviesRepositoriesImpl(
+        moviesApiRemoteDataSource: gh<_i350.MoviesRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i439.MoviesRepositories>(
       () => _i514.MoviesRepositoriesImpl(
         moviesApiRemoteDataSource: gh<_i393.MoviesRemoteDataSource>(),
@@ -137,6 +159,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i209.HistoryLocalDataSource>(
       () => _i318.HistoryLocalDataSourceImpl(gh<_i83.DatabaseHelper>()),
+    );
+    gh.lazySingleton<_i602.DeleteProfileUseCase>(
+      () => _i602.DeleteProfileUseCase(gh<_i842.UpdateProfileRepository>()),
     );
     gh.lazySingleton<_i116.UpdateProfileUseCase>(
       () => _i116.UpdateProfileUseCase(gh<_i842.UpdateProfileRepository>()),
@@ -164,8 +189,10 @@ extension GetItInjectableX on _i174.GetIt {
         searchRemoteDataSource: gh<_i541.SearchRemoteDataSource>(),
       ),
     );
-    gh.factory<_i456.UpdateProfileCubit>(
-      () => _i456.UpdateProfileCubit(gh<_i116.UpdateProfileUseCase>()),
+    gh.lazySingleton<_i538.GetMoviesUseCase>(
+      () => _i538.GetMoviesUseCase(
+        moviesRepositories: gh<_i908.MoviesRepositories>(),
+      ),
     );
     gh.lazySingleton<_i225.GetDetailsMovieUseCase>(
       () =>
@@ -185,6 +212,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i447.DeleteHistoryUseCase>(
       () => _i447.DeleteHistoryUseCase(gh<_i1022.HistoryRepository>()),
     );
+    gh.factory<_i456.UpdateProfileCubit>(
+      () => _i456.UpdateProfileCubit(
+        gh<_i116.UpdateProfileUseCase>(),
+        gh<_i602.DeleteProfileUseCase>(),
+      ),
+    );
     gh.factory<_i492.DetailsMovieCubit>(
       () => _i492.DetailsMovieCubit(
         getDetailsMovieUseCase: gh<_i225.GetDetailsMovieUseCase>(),
@@ -203,6 +236,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i280.MoviesCubit>(
       () => _i280.MoviesCubit(getMoviesUseCase: gh<_i39.GetMoviesUseCase>()),
+    );
+    gh.factory<_i38.MoviesByGenreCubit>(
+      () => _i38.MoviesByGenreCubit(
+        getMoviesUseCase: gh<_i538.GetMoviesUseCase>(),
+      ),
     );
     gh.factory<_i592.HistoryCubit>(
       () => _i592.HistoryCubit(

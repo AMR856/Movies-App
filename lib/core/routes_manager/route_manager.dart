@@ -28,11 +28,11 @@ class RouteGenerator {
       case RoutesManager.updateProfile:
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (_) => UpdateProfileCubit(GetIt.I())),
-                BlocProvider(create: (_) => AvatarCubit()),
-              ],
-              child: UpdateProfile(),
+            providers: [
+              BlocProvider(create: (_) => GetIt.I<UpdateProfileCubit>()),
+              BlocProvider(create: (_) => AvatarCubit()),
+            ],
+            child: UpdateProfile(),
           ),
           settings: settings,
         );
@@ -50,5 +50,4 @@ class RouteGenerator {
       ),
     );
   }
-
 }
