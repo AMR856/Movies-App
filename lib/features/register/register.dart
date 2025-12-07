@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // يجب استيراد مكتبة SVG
-
-// افتراض أن هذه المسارات صحيحة في مشروعك
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
 import 'package:movies_app/core/widget/LanguageSwitcher.dart';
 import 'package:movies_app/core/funcation/validators.dart';
@@ -105,17 +103,14 @@ class _RegisterState extends State<Register> {
                   iconSize: 24.0,
                 ),
                 const SizedBox(height: 20),
-                // --- Password Field with SVG ---
                 _buildPasswordTextField(
                   svgPath: ImageAssets.passwordIcon,
                 ),
                 const SizedBox(height: 20),
-                // --- Confirm Password Field with SVG ---
                 _buildConfirmPasswordTextField(
                   svgPath: ImageAssets.confirmPasswordIcon,
                 ),
                 const SizedBox(height: 20),
-                // --- Phone Field with SVG ---
                 _buildTextField(
                   controller: _phoneController,
                   hintText: 'Phone Number',
@@ -295,7 +290,6 @@ class _RegisterState extends State<Register> {
 
   // **** تم تحديث هذا القسم: الحجم أصبح 24.0 (مثل كلمة المرور) وإضافة Placeholder ****
   Widget _buildConfirmPasswordTextField({required String svgPath}) {
-    // تم تحديد الحجم ليتطابق مع حقل كلمة المرور (24.0)
     const double iconSize = 24.0;
     return TextFormField(
       controller: _confirmPasswordController,
@@ -310,12 +304,7 @@ class _RegisterState extends State<Register> {
             colorFilter: const ColorFilter.mode(ColorsManager.white, BlendMode.srcIn),
             height: iconSize,
             width: iconSize,
-            // **** الحل البديل: سيتم عرض هذا إذا لم يتم تحميل SVG بنجاح ****
-            placeholderBuilder: (context) => Icon(
-              Icons.lock_open_rounded, // أيقونة بديلة لـ "تأكيد كلمة المرور"
-              color: ColorsManager.white,
-              size: iconSize,
-            ),
+
           ),
         ),
         suffixIcon: IconButton(
