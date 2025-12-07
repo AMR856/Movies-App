@@ -29,6 +29,7 @@ class CustomTabBar extends StatelessWidget {
     return BlocBuilder<GenreTabCubit, int>(
       builder: (context, selectedIndex) {
         return SizedBox(
+          height: 50.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: genres.length,

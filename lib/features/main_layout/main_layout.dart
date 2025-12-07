@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
-import 'package:movies_app/features/main_layout/browser/browser_tab.dart';
-import 'package:movies_app/features/main_layout/home/home_tab.dart';
-import 'package:movies_app/features/main_layout/profile/profile_tab.dart';
+import 'package:movies_app/features/main_layout/home/presentation/home_tab.dart';
+import 'package:movies_app/features/main_layout/profile/presentation/profile_tab.dart';
 import 'package:movies_app/features/main_layout/search/search_tab.dart';
+import 'package:movies_app/features/main_layout/browser/presentation/browser_tab.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});

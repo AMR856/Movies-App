@@ -16,7 +16,6 @@ class MoviesApiRemoteDataSource implements MoviesRemoteDataSource {
         ApiConstant.listMoviesEndPoint,
         queryParameters: {'genre': genre},
       );
-      print(response.data);
       return MoviesResponse.fromJson(response.data);
     } catch (exception) {
       String? message;
