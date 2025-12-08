@@ -86,10 +86,22 @@ import 'package:movies_app/features/movie_details/data/repo_impl/details_repo_im
     as _i955;
 import 'package:movies_app/features/movie_details/domain/repos/details_repos.dart'
     as _i943;
+import 'package:movies_app/features/movie_details/domain/use_cases/add_favorite_use_case.dart'
+    as _i834;
+import 'package:movies_app/features/movie_details/domain/use_cases/delete_favorite_use_case.dart'
+    as _i561;
 import 'package:movies_app/features/movie_details/domain/use_cases/get_details_movie_use_case.dart'
     as _i225;
+import 'package:movies_app/features/movie_details/domain/use_cases/is_favorite_use_case.dart'
+    as _i347;
+import 'package:movies_app/features/movie_details/presentation/cubit/add_to_favorite_cubit.dart'
+    as _i929;
+import 'package:movies_app/features/movie_details/presentation/cubit/delete_favorite_cubit.dart'
+    as _i717;
 import 'package:movies_app/features/movie_details/presentation/cubit/details_movie_cubit.dart'
     as _i492;
+import 'package:movies_app/features/movie_details/presentation/cubit/is_favorite_cubit.dart'
+    as _i114;
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_suggestions_cubit.dart'
     as _i1050;
 import 'package:movies_app/features/update_profile/data/data_source/remote/update_profile_remote_data_source.dart'
@@ -242,6 +254,12 @@ extension GetItInjectableX on _i174.GetIt {
         getMoviesUseCase: gh<_i538.GetMoviesUseCase>(),
       ),
     );
+    gh.factory<_i561.DeleteFavoriteUseCase>(
+      () => _i561.DeleteFavoriteUseCase(gh<_i943.DetailsRepos>()),
+    );
+    gh.factory<_i347.GetIsFavoriteUseCase>(
+      () => _i347.GetIsFavoriteUseCase(gh<_i943.DetailsRepos>()),
+    );
     gh.factory<_i592.HistoryCubit>(
       () => _i592.HistoryCubit(
         getHistoryUseCase: gh<_i447.GetHistoryUseCase>(),
@@ -249,14 +267,28 @@ extension GetItInjectableX on _i174.GetIt {
         deleteHistoryUseCase: gh<_i447.DeleteHistoryUseCase>(),
       ),
     );
+    gh.factory<_i834.AddFavoriteUseCase>(
+      () => _i834.AddFavoriteUseCase(gh<_i943.DetailsRepos>()),
+    );
+    gh.factory<_i717.DeleteFavoriteCubit>(
+      () => _i717.DeleteFavoriteCubit(gh<_i561.DeleteFavoriteUseCase>()),
+    );
     gh.factory<_i619.ProfileCubit>(
       () =>
           _i619.ProfileCubit(getProfileUseCase: gh<_i799.GetProfileUseCase>()),
+    );
+    gh.factory<_i114.IsFavoriteCubit>(
+      () => _i114.IsFavoriteCubit(
+        getIsFavoriteUseCase: gh<_i347.GetIsFavoriteUseCase>(),
+      ),
     );
     gh.factory<_i762.SearchProvider>(
       () => _i762.SearchProvider(
         getSearchMovieUseCase: gh<_i780.GetSearchMovieUseCase>(),
       ),
+    );
+    gh.factory<_i929.AddFavoriteCubit>(
+      () => _i929.AddFavoriteCubit(gh<_i834.AddFavoriteUseCase>()),
     );
     return this;
   }

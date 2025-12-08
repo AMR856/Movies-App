@@ -19,4 +19,15 @@ class PrefsManager {
       return savedLanguage;
     }
   }
+  static Future<void> saveToken(String token) async {
+    await prefs.setString("user_token", token);
+  }
+
+  static String? getToken() {
+    return prefs.getString("user_token");
+  }
+
+  static Future<void> clearToken() async {
+    await prefs.remove("user_token");
+  }
 }

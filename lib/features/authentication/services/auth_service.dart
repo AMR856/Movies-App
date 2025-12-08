@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'api_client.dart';
-import '../models/auth_response.dart';
+import 'package:movies_app/features/authentication/services/api_client.dart';
+import 'package:movies_app/features/authentication/models/auth_response.dart';
 
 class AuthService {
   final ApiClient apiClient;

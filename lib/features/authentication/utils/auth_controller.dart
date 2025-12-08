@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/features/authentication/utils/constants.dart';
+import 'package:movies_app/core/prefs/prefs_manager.dart';
 
 class AuthController extends ChangeNotifier {
   bool _isLoading = false;
@@ -12,8 +13,16 @@ class AuthController extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String? get token => _token;
 
+  AuthController() {
+    _token = PrefsManager.getToken();
+  }
+
   void _saveToken(String? newToken) {
     _token = newToken;
+    if (newToken != null) {
+      PrefsManager.saveToken(newToken);
+    }
+    notifyListeners();
   }
 
   void setLoading(bool value) {
@@ -26,21 +35,6 @@ class AuthController extends ChangeNotifier {
     final headers = Constants.jsonHeaders;
 
     return await http.post(uri, headers: headers, body: jsonEncode(body));
-  }
-
-  Future<http.Response> _patch(String path, Map<String, dynamic> body, {String? token}) async {
-    final uri = Uri.parse('${Constants.BASE_URL}$path');
-
-    final Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-
-    if (token != null) {
-      headers['Authorization'] = 'Bearer $token';
-    }
-
-    return await http.patch(uri, headers: headers, body: jsonEncode(body));
   }
 
   String _handleErrorMessage(dynamic data, String defaultMessage) {
@@ -106,7 +100,7 @@ class AuthController extends ChangeNotifier {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        _saveToken(data['token']);
+        _saveToken(data['data']);
       } else {
         _errorMessage = _handleErrorMessage(data, "Login failed");
       }

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/config/db/db_helper.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
@@ -12,13 +13,28 @@ class CustomMovieItem extends StatelessWidget {
     this.width = 189,
     required this.moviesEntity,
   });
+
   final double? height;
   final double? width;
   final dynamic moviesEntity;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        final dbHelper = DatabaseHelper();
+
+        final existing = await dbHelper.getHistory();
+        final exists = existing.any((item) => item['id'] == moviesEntity.id);
+
+        if (!exists) {
+          await dbHelper.insertHistory({
+            "id": moviesEntity.id,
+            "rating": moviesEntity.rating,
+            "imageUrl": moviesEntity.largeCoverImage,
+          });
+        }
+
         Navigator.pushNamed(
           context,
           RoutesManager.movieDetails,

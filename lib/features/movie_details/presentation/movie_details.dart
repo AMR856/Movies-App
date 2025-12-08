@@ -9,11 +9,17 @@ import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/widgets/custom_elevated_button.dart';
 import 'package:movies_app/features/main_layout/home/domain/entities/movies_entity.dart';
+import 'package:movies_app/features/movie_details/data/models/add_favorite_request.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/add_to_favorite_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/delete_favorite_cubit.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/details_movie_cubit.dart';
+import 'package:movies_app/features/movie_details/presentation/cubit/is_favorite_cubit.dart';
 import 'package:movies_app/features/movie_details/presentation/cubit/movie_suggestions_cubit.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_button_details.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_cast_item.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_movie_suggestion.dart';
+import 'package:movies_app/features/movie_details/presentation/widgets/loading.dart';
+import 'package:movies_app/features/movie_details/presentation/widgets/toasts.dart';
 import 'package:movies_app/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,23 +33,29 @@ class MovieDetails extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              getIt<DetailsMovieCubit>()..getDetailsMovie(moviesEntity.id),
+          getIt<DetailsMovieCubit>()..getDetailsMovie(moviesEntity.id),
         ),
         BlocProvider(
           create: (context) =>
-              getIt<MovieSuggestionsCubit>()
-                ..getMovieSuggestions(moviesEntity.id),
+          getIt<MovieSuggestionsCubit>()
+            ..getMovieSuggestions(moviesEntity.id),
+        ),
+        BlocProvider(
+          create: (_) => getIt<AddFavoriteCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<DeleteFavoriteCubit>(),
         ),
       ],
       child: Scaffold(
         body: BlocBuilder<DetailsMovieCubit, DetailsMovieState>(
           builder: (context, state) {
             if (state is DetailsMovieLoading) {
-              Center(
+              return Center(
                 child: CupertinoActivityIndicator(color: ColorManager.white),
               );
             } else if (state is DetailsMovieError) {
-              Center(
+              return Center(
                 child: Text(
                   state.message,
                   style: TextStyle(color: ColorManager.white),
@@ -91,14 +103,7 @@ class MovieDetails extends StatelessWidget {
                                   color: ColorManager.white,
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  size: 29,
-                                  Icons.bookmark,
-                                  color: ColorManager.white,
-                                ),
-                              ),
+                              FavoriteButtonWithListener(moviesEntity: moviesEntity),
                             ],
                           ),
                           Image.asset(
@@ -142,7 +147,7 @@ class MovieDetails extends StatelessWidget {
                                 padding: REdgeInsets.only(top: AppPadding.p16),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomButtonDetails(
                                       icon: Icons.favorite,
@@ -185,7 +190,7 @@ class MovieDetails extends StatelessWidget {
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => ClipRRect(
-                              borderRadius: BorderRadiusGeometry.circular(16),
+                              borderRadius: BorderRadius.circular(16),
                               child: Image.network(screenShotsList[index]),
                             ),
                             separatorBuilder: (context, index) =>
@@ -202,18 +207,18 @@ class MovieDetails extends StatelessWidget {
                           ),
 
                           BlocBuilder<
-                            MovieSuggestionsCubit,
-                            MovieSuggestionsState
+                              MovieSuggestionsCubit,
+                              MovieSuggestionsState
                           >(
                             builder: (context, state) {
                               if (state is MovieSuggestionsLoading) {
-                                Center(
+                                return Center(
                                   child: CupertinoActivityIndicator(
                                     color: ColorManager.white,
                                   ),
                                 );
                               } else if (state is MovieSuggestionsError) {
-                                Center(
+                                return Center(
                                   child: Text(
                                     state.message,
                                     style: TextStyle(color: ColorManager.white),
@@ -230,17 +235,17 @@ class MovieDetails extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return CustomMovieSuggestion(
                                       moviesSuggestionEntity:
-                                          state.movieSuggestions[index],
+                                      state.movieSuggestions[index],
                                     );
                                   },
                                   itemCount: state.movieSuggestions.length,
                                   gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 0.70,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 12,
-                                      ),
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.70,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 12,
+                                  ),
                                 );
                               }
                               return SizedBox(
@@ -316,12 +321,12 @@ class MovieDetails extends StatelessWidget {
                             },
                             itemCount: state.detailsMovie.genres!.length,
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  childAspectRatio: 8 / 3.5,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 12,
-                                ),
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 8 / 3.5,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 12,
+                            ),
                           ),
                         ],
                       ),
@@ -330,10 +335,95 @@ class MovieDetails extends StatelessWidget {
                 ),
               );
             }
-            return SizedBox(
+            return Center(
               child: Text(
                 '${S.of(context).loading}....',
                 style: TextStyle(color: Colors.white),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class FavoriteButtonWithListener extends StatelessWidget {
+  const FavoriteButtonWithListener({
+    super.key,
+    required this.moviesEntity,
+  });
+
+  final MoviesEntity moviesEntity;
+
+  void _handleFavoriteActionState(BuildContext context, dynamic state) {
+    Loading.stopLoading(context);
+    if (state is AddFavoriteSuccess) {
+      Toasts.showToast(ColorManager.green, state.message);
+      context.read<IsFavoriteCubit>().checkFavorite(moviesEntity.id.toString());
+    } else if (state is AddFavoriteError) {
+      Toasts.showToast(ColorManager.red, state.message);
+    }
+    else if (state is DeleteFavoriteSuccess) {
+      Toasts.showToast(ColorManager.green, state.message);
+      context.read<IsFavoriteCubit>().checkFavorite(moviesEntity.id.toString());
+    } else if (state is DeleteFavoriteError) {
+      Toasts.showToast(ColorManager.red, state.message);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<IsFavoriteCubit>()..checkFavorite(moviesEntity.id.toString()),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AddFavoriteCubit, AddFavoriteState>(
+            listener: (context, state) {
+              if (state is AddFavoriteLoading) {
+                Loading.showLoading(context);
+              } else {
+                _handleFavoriteActionState(context, state);
+              }
+            },
+          ),
+          BlocListener<DeleteFavoriteCubit, DeleteFavoriteState>(
+            listener: (context, state) {
+              if (state is DeleteFavoriteLoading) {
+                Loading.showLoading(context);
+              } else {
+                _handleFavoriteActionState(context, state);
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<IsFavoriteCubit, IsFavoriteState>(
+          builder: (context, state) {
+            bool isFavorite = false;
+
+            if (state is IsFavoriteSuccess) {
+              isFavorite = state.entity.isFavorite;
+            }
+
+            return IconButton(
+              onPressed: () {
+                if (isFavorite) {
+                  context.read<DeleteFavoriteCubit>().deleteFavorite(moviesEntity.id.toString());
+                } else {
+                  final request = AddFavoriteRequest(
+                    movieId: moviesEntity.id.toString(),
+                    name: moviesEntity.name ?? 'The movie',
+                    rating: moviesEntity.rating,
+                    imageURL: moviesEntity.largeCoverImage,
+                    year: moviesEntity.year ?? '2025',
+                  );
+                  context.read<AddFavoriteCubit>().addToFavorite(request);
+                }
+              },
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_outline_rounded,
+                color: ColorManager.white,
+                size: 29,
               ),
             );
           },

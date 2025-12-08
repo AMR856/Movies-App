@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           title: 'Movies App',
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: RoutesManager.login,
+          initialRoute: RoutesManager.splashScreen,
         );
       },
     );

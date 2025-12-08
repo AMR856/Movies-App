@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/di/di.dart';
+import 'package:movies_app/core/prefs/prefs_manager.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
@@ -166,7 +167,10 @@ class _ProfileTabState extends State<ProfileTab> {
                               bgColor: ColorManager.red,
                               fgColor: ColorManager.white,
                               horizontal: 39,
-                              onPressed: () {},
+                              onPressed: () {
+                                PrefsManager.clearToken();
+                                Navigator.pushReplacementNamed(context, RoutesManager.login);
+                              },
                               isIcon: true,
                             ),
                           ],

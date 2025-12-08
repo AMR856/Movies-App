@@ -1,5 +1,5 @@
-import '../services/auth_service.dart';
-import '../models/auth_response.dart';
+import 'package:movies_app/features/authentication/services/auth_service.dart';
+import 'package:movies_app/features/authentication/models/auth_response.dart';
 
 class AuthRepository {
   final AuthService service;

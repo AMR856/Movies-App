@@ -39,6 +39,23 @@ class DatabaseHelper {
   }
   Future<int> insertHistory(Map<String, dynamic> row) async {
     Database db = await database;
+
+    final countResult = await db.rawQuery('SELECT COUNT(*) as count FROM $historyTable');
+    int count = Sqflite.firstIntValue(countResult) ?? 0;
+
+    if (count >= 21) {
+      final oldest = await db.query(
+        historyTable,
+        orderBy: 'id ASC',
+        limit: 1,
+      );
+
+      if (oldest.isNotEmpty) {
+        int oldestId = oldest.first['id'] as int;
+        await deleteHistory(oldestId);
+      }
+    }
+
     return await db.insert(historyTable, row);
   }
   Future<List<Map<String, dynamic>>> getHistory() async {
