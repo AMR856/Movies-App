@@ -13,7 +13,7 @@ abstract class ApiConstant {
 }
 
 abstract class CacheConstant {
-  static const String token = "";
+  static const String keyLanguage = "keyLanguage";
 }
 // {
 // "movieId": "72893",

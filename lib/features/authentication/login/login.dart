@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/functions/validators.dart';
-import 'package:movies_app/core/widgets/LanguageSwitcher.dart';
+import 'package:movies_app/core/widgets/language_switcher.dart';
 import 'package:movies_app/features/authentication/utils/auth_controller.dart';
+import 'package:movies_app/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
@@ -71,7 +72,7 @@ class _LoginState extends State<Login> {
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
       style: TextStyle(color: ColorsManager.white),
-      validator: (value) => Validators.validateEmail(value),
+      validator: (value) => Validators.validateEmail(value,context),
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -82,7 +83,7 @@ class _LoginState extends State<Login> {
             height: 20,
           ),
         ),
-        hintText: 'Email',
+        hintText: S.of(context).email,
         hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
         fillColor: ColorsManager.grey,
@@ -100,7 +101,7 @@ class _LoginState extends State<Login> {
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
       style: TextStyle(color: ColorsManager.white),
-      validator: (value) => Validators.validatePassword(value),
+      validator: (value) => Validators.validatePassword(value,context),
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -123,7 +124,7 @@ class _LoginState extends State<Login> {
             });
           },
         ),
-        hintText: 'Password',
+        hintText: S.of(context).password,
         hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
         fillColor: ColorsManager.grey,
@@ -148,8 +149,8 @@ class _LoginState extends State<Login> {
           minimumSize: Size(50, 30),
           alignment: Alignment.centerRight,
         ),
-        child: const Text(
-          'Forget Password ?',
+        child: Text(
+          S.of(context).forget_password,
           style: TextStyle(color: ColorsManager.yellow, fontSize: 13),
         ),
       ),
@@ -197,8 +198,8 @@ class _LoginState extends State<Login> {
                   strokeWidth: 2,
                 ),
               )
-            : const Text(
-                'Login',
+            :  Text(
+                S.of(context).login,
                 style: TextStyle(
                   color: ColorsManager.black,
                   fontSize: 18,
@@ -215,16 +216,16 @@ class _LoginState extends State<Login> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Don't Have Account ?",
+             Text(
+              S.of(context).don_have_account,
               style: TextStyle(color: ColorsManager.white, fontSize: 15),
             ),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, RoutesManager.register);
               },
-              child: const Text(
-                ' Create One',
+              child:  Text(
+                ' ${S.of(context).create_account}',
                 style: TextStyle(color: ColorsManager.yellow, fontSize: 15),
               ),
             ),
@@ -243,7 +244,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                'OR',
+                S.of(context).oR,
                 style: TextStyle(color: ColorsManager.yellow, fontSize: 14),
               ),
             ),
@@ -309,7 +310,7 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(width: 6),
                   Text(
-                    'Login With Google',
+                    S.of(context).login_with_google,
                     style: TextStyle(
                       color: ColorsManager.black,
                       fontSize: 16,

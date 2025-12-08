@@ -14,6 +14,7 @@ import 'package:movies_app/features/main_layout/profile/presentation/cubit/get_p
 import 'package:movies_app/features/main_layout/profile/presentation/cubit/history_cubit.dart';
 import 'package:movies_app/features/main_layout/profile/presentation/widgets/count_widget.dart';
 import 'package:movies_app/features/main_layout/profile/presentation/widgets/custom_toggle.dart';
+import 'package:movies_app/generated/l10n.dart';
 
 enum ProfileContent { favorites, history }
 
@@ -111,7 +112,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                         ProfileContent.favorites,
                                   ),
                                   child: CountWidget(
-                                    text: 'Watch List',
+                                    text: S.of(context).wish_list,
                                     num: watchListCount,
                                   ),
                                 );
@@ -129,7 +130,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                         currentContent = ProfileContent.history,
                                   ),
                                   child: CountWidget(
-                                    text: 'History',
+                                    text: S.of(context).history,
                                     num: historyCount,
                                   ),
                                 );
@@ -142,7 +143,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CustomElevatedButton(
-                              text: 'Edit Profile',
+                              text: S.of(context).edit_profile,
                               bgColor: ColorManager.yellow,
                               fgColor: ColorManager.primary,
                               horizontal: 60,
@@ -161,7 +162,7 @@ class _ProfileTabState extends State<ProfileTab> {
                               },
                             ),
                             CustomElevatedButton(
-                              text: 'Exit',
+                              text: S.of(context).exit,
                               bgColor: ColorManager.red,
                               fgColor: ColorManager.white,
                               horizontal: 39,

@@ -6,7 +6,7 @@ import 'package:movies_app/core/resources/color_manager.dart';
 import 'package:movies_app/core/resources/font_manager.dart';
 import 'package:movies_app/features/main_layout/home/presentation/home_tab.dart';
 import 'package:movies_app/features/main_layout/profile/presentation/profile_tab.dart';
-import 'package:movies_app/features/main_layout/search/search_tab.dart';
+import 'package:movies_app/features/main_layout/search/presentation/search_tab.dart';
 import 'package:movies_app/features/main_layout/browser/presentation/browser_tab.dart';
 
 class MainLayout extends StatefulWidget {

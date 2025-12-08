@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
+import 'package:movies_app/generated/l10n.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
@@ -25,8 +26,8 @@ class ForgetPassword extends StatelessWidget {
                           color: ColorsManager.yellow, ),
                     ),
                   ),
-                  const Text(
-                    "Forget Password",
+                   Text(
+                   S.of(context).forget_password,
                     style: TextStyle(
                       color: ColorsManager.yellow,
                       fontSize: 20,
@@ -58,7 +59,7 @@ class ForgetPassword extends StatelessWidget {
                   style: TextStyle(color: ColorsManager.white),
                   decoration: InputDecoration(
                     icon: Icon(Icons.email, color: ColorsManager.white),
-                    hintText: "Email",
+                    hintText: S.of(context).email,
                     hintStyle: TextStyle(color: ColorsManager.white),
                     border: InputBorder.none,
                   ),
@@ -82,7 +83,7 @@ class ForgetPassword extends StatelessWidget {
                   ),
                   onPressed: () {},
                   child:  Text(
-                    "Verify Email",
+                    S.of(context).verify_email,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

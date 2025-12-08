@@ -13,6 +13,7 @@ import 'package:movies_app/features/update_profile/presentation/cubit/update_pro
 import 'package:movies_app/features/update_profile/presentation/utils/show_bottom_sheet.dart';
 import 'package:movies_app/features/update_profile/presentation/utils/validators.dart';
 import 'package:movies_app/features/update_profile/presentation/widgets/loading.dart';
+import 'package:movies_app/generated/l10n.dart';
 
 import 'widgets/toasts.dart';
 
@@ -56,12 +57,18 @@ class _UpdateProfileState extends State<UpdateProfile> {
         }
 
         if (state is UpdateProfileSuccess) {
-          Toasts.showToast(ColorManager.green, "Profile updated successfully");
+          Toasts.showToast(
+            ColorManager.green,
+            S.of(context).profileupdatedsuccessfully,
+          );
           Navigator.pop(context);
         }
 
         if (state is DeleteProfileSuccess) {
-          Toasts.showToast(ColorManager.red, "Account deleted successfully");
+          Toasts.showToast(
+            ColorManager.red,
+            S.of(context).accountdeletedsuccessfully,
+          );
           Navigator.pop(context);
         }
 
@@ -82,7 +89,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 onTap: () => Navigator.pop(context),
                 child: Image.asset(IconsAssets.icon5Arrow),
               ),
-              title: const Text('Update Profile'),
+              title: Text(S.of(context).update_profile),
               centerTitle: true,
             ),
             body: Padding(
@@ -134,7 +141,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       context.read<UpdateProfileCubit>().deleteProfile();
                     },
                     horizontal: 0,
-                    text: 'Delete Account',
+                    text: S.of(context).delete_account,
                   ),
 
                   SizedBox(height: 20.h),
@@ -147,7 +154,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         fontSize: AppSize.s20.sp,
                         fontWeight: FontWeight.w400,
                         horizontal: 0,
-                        text: 'Update Data',
+                        text: S.of(context).update_data,
                         onPressed: () {
                           if (!formKey.currentState!.validate()) return;
 

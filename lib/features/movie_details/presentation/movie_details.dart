@@ -14,6 +14,7 @@ import 'package:movies_app/features/movie_details/presentation/cubit/movie_sugge
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_button_details.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_cast_item.dart';
 import 'package:movies_app/features/movie_details/presentation/widgets/custom_movie_suggestion.dart';
+import 'package:movies_app/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetails extends StatelessWidget {
@@ -39,9 +40,7 @@ class MovieDetails extends StatelessWidget {
           builder: (context, state) {
             if (state is DetailsMovieLoading) {
               Center(
-                child: CupertinoActivityIndicator(
-                  color: ColorManager.white,
-                ),
+                child: CupertinoActivityIndicator(color: ColorManager.white),
               );
             } else if (state is DetailsMovieError) {
               Center(
@@ -132,7 +131,7 @@ class MovieDetails extends StatelessWidget {
                               ),
                               CustomElevatedButton(
                                 horizontal: 0,
-                                text: 'Watch',
+                                text: S.of(context).watch,
                                 bgColor: ColorManager.red,
                                 fgColor: ColorManager.white,
                                 onPressed: () {
@@ -172,7 +171,7 @@ class MovieDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Screen Shots',
+                            S.of(context).screen_shots,
                             style: TextStyle(
                               color: ColorManager.white,
                               fontSize: AppSize.s24.sp,
@@ -189,13 +188,12 @@ class MovieDetails extends StatelessWidget {
                               borderRadius: BorderRadiusGeometry.circular(16),
                               child: Image.network(screenShotsList[index]),
                             ),
-                            separatorBuilder: (context, index) => SizedBox(
-                              height: 13,
-                            ),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(height: 13),
                             itemCount: screenShotsList.length,
                           ),
                           Text(
-                            'Similar',
+                            S.of(context).similar,
                             style: TextStyle(
                               color: ColorManager.white,
                               fontSize: AppSize.s24.sp,
@@ -247,14 +245,14 @@ class MovieDetails extends StatelessWidget {
                               }
                               return SizedBox(
                                 child: Text(
-                                  'Loading....',
+                                  '${S.of(context).loading}....',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               );
                             },
                           ),
                           Text(
-                            'Summary',
+                            S.of(context).summary,
                             style: TextStyle(
                               color: ColorManager.white,
                               fontSize: AppSize.s24.sp,
@@ -270,7 +268,7 @@ class MovieDetails extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '\nCast',
+                            '\n${S.of(context).cast}',
                             style: TextStyle(
                               color: ColorManager.white,
                               fontSize: AppSize.s24.sp,
@@ -287,12 +285,11 @@ class MovieDetails extends StatelessWidget {
                             itemBuilder: (context, index) => CustomCastItem(
                               castEntity: state.detailsMovie.cast[index],
                             ),
-                            separatorBuilder: (context, index) => SizedBox(
-                              height: 10.h,
-                            ),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(height: 10.h),
                           ),
                           Text(
-                            'Genres',
+                            S.of(context).genres,
                             style: TextStyle(
                               color: ColorManager.white,
                               fontSize: AppSize.s24.sp,
@@ -335,7 +332,7 @@ class MovieDetails extends StatelessWidget {
             }
             return SizedBox(
               child: Text(
-                'Loading....',
+                '${S.of(context).loading}....',
                 style: TextStyle(color: Colors.white),
               ),
             );

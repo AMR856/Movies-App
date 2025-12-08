@@ -28,8 +28,6 @@ class AuthController extends ChangeNotifier {
     return await http.post(uri, headers: headers, body: jsonEncode(body));
   }
 
-  // ------------------------------
-  // PATCH Request Handler
   Future<http.Response> _patch(String path, Map<String, dynamic> body, {String? token}) async {
     final uri = Uri.parse('${Constants.BASE_URL}$path');
 
@@ -45,9 +43,7 @@ class AuthController extends ChangeNotifier {
     return await http.patch(uri, headers: headers, body: jsonEncode(body));
   }
 
-  // Error Handler
   String _handleErrorMessage(dynamic data, String defaultMessage) {
-    // حاول استخراج الأخطاء من مفاتيح مختلفة
     dynamic error = data['errors'] ?? data['message'];
 
     if (error == null) return defaultMessage;

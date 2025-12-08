@@ -7,6 +7,7 @@ import 'package:movies_app/core/resources/values_manager.dart';
 import 'package:movies_app/core/widgets/custom_movie_item.dart';
 import 'package:movies_app/core/widgets/custom_text_filed.dart';
 import 'package:movies_app/features/main_layout/search/presentation/cubit/search_provider.dart';
+import 'package:movies_app/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class SearchTab extends StatefulWidget {
@@ -32,8 +33,8 @@ class _SearchTabState extends State<SearchTab> {
                   return CustomTextFiled(
                     controller: controller,
                     icon: Icons.search,
-                    label: 'Search',
-                    hint: 'Search',
+                    label: S.of(context).search,
+                    hint: S.of(context).search,
                     onChanged: (value) {
                       searchProvider.getSearchMovies(value);
                     },
@@ -44,9 +45,7 @@ class _SearchTabState extends State<SearchTab> {
                 builder: (context, searchProvider, child) {
                   if (searchProvider.isLoading) {
                     return Expanded(
-                      child: Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
+                      child: Center(child: CupertinoActivityIndicator()),
                     );
                   }
                   if (searchProvider.moviesList.isEmpty &&
@@ -62,9 +61,7 @@ class _SearchTabState extends State<SearchTab> {
                   }
                   if (searchProvider.errorMessage != null) {
                     return Expanded(
-                      child: Center(
-                        child: Text(searchProvider.errorMessage!),
-                      ),
+                      child: Center(child: Text(searchProvider.errorMessage!)),
                     );
                   }
                   return Expanded(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movies_app/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:movies_app/core/resources/colors_manager.dart';
-import 'package:movies_app/core/widgets/LanguageSwitcher.dart';
+import 'package:movies_app/core/widgets/language_switcher.dart';
 import 'package:movies_app/core/resources/assets_manager.dart';
 import 'package:movies_app/core/routes_manager/routes_manager.dart';
 import 'package:movies_app/features/authentication/utils/auth_controller.dart';
@@ -39,16 +40,16 @@ class _RegisterState extends State<Register> {
 
   String? _validateConfirmPassword(String? confirmPassword) {
     if (confirmPassword == null || confirmPassword.isEmpty)
-      return "Confirm Password is Required";
+      return S.of(context).confirmPasswordisRequired;
     if (confirmPassword != _passwordController.text)
-      return "Passwords do not match";
+      return S.of(context).passwordsdonotmatch ;
     return null;
   }
 
   String? _validatePhone(String? phone) {
     if (phone == null || phone.trim().isEmpty)
-      return "Phone Number is Required";
-    if (phone.length < 8) return "Phone should be at least 8 digits";
+      return S.of(context).phoneNumberisRequired;
+    if (phone.length < 8) return S.of(context).phoneshouldbeatleast8digits;
     return null;
   }
 
@@ -73,7 +74,7 @@ class _RegisterState extends State<Register> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Register',
+          S.of(context).register,
           style: TextStyle(
             color: ColorsManager.yellow,
             fontWeight: FontWeight.bold,
@@ -94,20 +95,19 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 40),
                 _buildTextField(
                   controller: _nameController,
-                  hintText: 'Name',
+                  hintText: S.of(context).name,
                   svgPath: ImageAssets.nameIcon,
                   keyboardType: TextInputType.text,
-                  validator: (v) => Validators.validateName(v),
+                  validator: (v) => Validators.validateName(v,context),
                   iconSize: 30.0,
                 ),
                 const SizedBox(height: 20),
-                // --- Email Field with SVG (Default Size: 24.0) ---
                 _buildTextField(
                   controller: _emailController,
-                  hintText: 'Email',
+                  hintText: S.of(context).email,
                   svgPath: ImageAssets.emailIcon,
                   keyboardType: TextInputType.emailAddress,
-                  validator: (v) => Validators.validateEmail(v),
+                  validator: (v) => Validators.validateEmail(v,context),
                   iconSize: 24.0,
                 ),
                 const SizedBox(height: 20),
@@ -119,7 +119,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 20),
                 _buildTextField(
                   controller: _phoneController,
-                  hintText: 'Phone Number',
+                  hintText: S.of(context).phone_number,
                   svgPath: ImageAssets.phoneIcon,
                   keyboardType: TextInputType.phone,
                   validator: _validatePhone,
@@ -166,7 +166,7 @@ class _RegisterState extends State<Register> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Avatar',
+          S.of(context).avatar,
           style: TextStyle(color: ColorsManager.white, fontSize: 16),
         ),
       ],
@@ -197,7 +197,6 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // تم تعديل هذه الدالة لاستقبال iconSize وتطبيقها
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,
@@ -251,14 +250,13 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // تم تحديث الدالة لأخذ svgPath وتطبيق إعدادات الخطأ
   Widget _buildPasswordTextField({required String svgPath}) {
     const double iconSize = 24.0;
     return TextFormField(
       controller: _passwordController,
       obscureText: !_isPasswordVisible,
       style: TextStyle(color: ColorsManager.white),
-      validator: (value) => Validators.validatePassword(value),
+      validator: (value) => Validators.validatePassword(value,context),
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -283,7 +281,7 @@ class _RegisterState extends State<Register> {
           onPressed: () =>
               setState(() => _isPasswordVisible = !_isPasswordVisible),
         ),
-        hintText: 'Password',
+        hintText: S.of(context).password,
         hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
         fillColor: ColorsManager.grey,
@@ -308,7 +306,6 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // **** تم تحديث هذا القسم: الحجم أصبح 24.0 (مثل كلمة المرور) وإضافة Placeholder ****
   Widget _buildConfirmPasswordTextField({required String svgPath}) {
     const double iconSize = 24.0;
     return TextFormField(
@@ -320,7 +317,7 @@ class _RegisterState extends State<Register> {
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
           child: SvgPicture.asset(
-            svgPath, // <--- الآن يتم استخدام المتغير الممرر (svgPath)
+            svgPath,
             colorFilter: const ColorFilter.mode(
               ColorsManager.white,
               BlendMode.srcIn,
@@ -339,7 +336,7 @@ class _RegisterState extends State<Register> {
             () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible,
           ),
         ),
-        hintText: 'Confirm Password',
+        hintText: S.of(context).confirm_password,
         hintStyle: TextStyle(color: ColorsManager.white),
         filled: true,
         fillColor: ColorsManager.grey,
@@ -409,7 +406,7 @@ class _RegisterState extends State<Register> {
                 ),
               )
             : Text(
-                'Create Account',
+                S.of(context).create_account,
                 style: TextStyle(
                   color: ColorsManager.black,
                   fontSize: 18,
@@ -425,13 +422,13 @@ class _RegisterState extends State<Register> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Already Have Account ?",
+         S.of(context).already_have_account,
           style: TextStyle(color: ColorsManager.white, fontSize: 15),
         ),
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Text(
-            ' Login',
+            ' ${S.of(context).login}',
             style: TextStyle(color: ColorsManager.yellow, fontSize: 15),
           ),
         ),

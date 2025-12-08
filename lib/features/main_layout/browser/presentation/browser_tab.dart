@@ -7,6 +7,8 @@ import 'package:movies_app/features/main_layout/browser/presentation/widgets/cus
 import 'package:movies_app/core/di/di.dart';
 import 'package:movies_app/features/main_layout/browser/presentation/cubit/movies_by_genre_cubit.dart';
 import 'package:movies_app/features/main_layout/browser/presentation/cubit/genre_tab_cubit.dart';
+import 'package:movies_app/providers/config_provider.dart';
+import 'package:provider/provider.dart';
 
 class BrowserTab extends StatefulWidget {
   const BrowserTab({super.key});
@@ -16,38 +18,40 @@ class BrowserTab extends StatefulWidget {
 }
 
 class _BrowserTabState extends State<BrowserTab> {
-  final List<String> genres = [
-    'Action',
-    'Adventure',
-    'Animation',
-    'Comedy',
-    'Crime',
-    'Documentary',
-    'Drama',
-    'Family',
-    'Fantasy',
-    'History',
-    'Horror',
-    'Musical',
-    'Mystery',
-    'Romance',
-    'Sci-Fi',
-    'Sport',
-    'Thriller',
-    'War',
-    'Western',
-  ];
+ final Map<String, String> genreMap = {
+    'Action': 'أكشن',
+    'Adventure': 'مغامرة',
+    'Animation': 'رسوم متحركة',
+    'Comedy': 'كوميديا',
+    'Crime': 'جريمة',
+    'Documentary': 'وثائقي',
+    'Drama': 'دراما',
+    'Family': 'عائلي',
+    'Fantasy': 'خيال',
+    'History': 'تاريخي',
+    'Horror': 'رعب',
+    'Musical': 'موسيقي',
+    'Mystery': 'غموض',
+    'Romance': 'رومانسي',
+    'Sci-Fi': 'خيال علمي',
+    'Sport': 'رياضي',
+    'Thriller': 'إثارة',
+    'War': 'حرب',
+    'Western': 'غربي',
+  };
+
+  List<String> get genresEn => genreMap.keys.toList();
+  List<String> get genresAr => genreMap.values.toList();
 
   @override
   Widget build(BuildContext context) {
+    final configProvider = Provider.of<ConfigProvider>(context);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => GenreTabCubit(),
-        ),
+        BlocProvider(create: (_) => GenreTabCubit()),
         BlocProvider(
           create: (_) =>
-              getIt<MoviesByGenreCubit>()..getMoviesByGenre(genres[0]),
+              getIt<MoviesByGenreCubit>()..getMoviesByGenre(genresEn[0]),
         ),
       ],
       child: SafeArea(
@@ -57,17 +61,28 @@ class _BrowserTabState extends State<BrowserTab> {
             children: [
               BlocBuilder<GenreTabCubit, int>(
                 builder: (context, selectedIndex) {
+                  final currentGenres = configProvider.currentLanguage == 'en'
+                      ? genresEn
+                      : genresAr;
                   return CustomTabBar(
-                    genres: genres,
+                    genres:currentGenres,
                     selectedTapBgColor: ColorManager.yellow,
                     selectedTapFgColor: ColorManager.primary,
                     unSelectedTapBgColor: ColorManager.primary,
                     unSelectedTapFgColor: ColorManager.yellow,
                     onTapGenre: (genre) {
-                      final index = genres.indexOf(genre);
+                      final index = currentGenres.indexOf(genre);
+                      String englishGenre;
+                      if (configProvider.currentLanguage == 'en') {
+                        englishGenre = genre;
+                      } else {
+                        englishGenre = genreMap.entries
+                            .firstWhere((entry) => entry.value == genre)
+                            .key;
+                      }
                       context.read<GenreTabCubit>().selectTab(index);
                       context.read<MoviesByGenreCubit>().getMoviesByGenre(
-                        genre,
+                        englishGenre,
                       );
                     },
                   );
@@ -113,9 +128,8 @@ class _BrowserTabState extends State<BrowserTab> {
                           mainAxisSpacing: 12.h,
                           crossAxisSpacing: 12.w,
                         ),
-                        itemBuilder: (context, index) => CustomMovieItem(
-                          moviesEntity: movies[index],
-                        ),
+                        itemBuilder: (context, index) =>
+                            CustomMovieItem(moviesEntity: movies[index]),
                       );
                     }
                     return const SizedBox.shrink();
